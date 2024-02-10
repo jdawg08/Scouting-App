@@ -2,10 +2,10 @@ import pandas as pd
 import csv
 import numpy as np
 
-myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/ScoutingPASS/DataAnalysis/Book1.xlsx"
+myFile = "C:\Users\Robotics\Documents\GitHub\ScoutingPASS\DataAnalysis\Book1.xlsx"
 
 # Reading an excel file
-excelFile = pd.read_excel(myFile,names=['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'SpeakScore-Auto', 'AmpScore-Teleop', 'SpeakScore-Teleop', 'Amplify#', 'PickupFrom', 'StageTimer', 'FinalStatus', 'Noteintrap?', 'DriverSkill', 'DefenseRating', 'SpeedRating', 'Died?', 'Tippy?', 'DroppedNotes?', 'GoodPartner?'])
+excelFile = pd.read_excel(myFile,names=['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'SpeakScore-Auto', 'AmpScore-Teleop', 'SpeakScore-Teleop', 'Amplify#', 'PickupFrom', 'StageTimer', 'FinalStatus', 'Noteintrap?', 'DriverSkill', 'DefenseRating', 'SpeedRating', 'Died?', 'Tippy?', 'DroppedNotes?', 'GoodPartner?','Comments'])
 
 # Converting excel file into CSV file
 excelFile.to_csv("ResultCsvFile.csv",index=False)
@@ -99,4 +99,16 @@ def standard_dev(team_num):
             print(std)
             h_i += 1
             sd = []
+
+    
+def position_values():
+    print(myData)
+    temp = []
+    heatData = []
+    for l in myData:
+        temp.append(l[6])
+    for item in temp:
+        item = int(item[1:len(item)-1])
+        heatData.append(item)
+    print(heatData)
     
