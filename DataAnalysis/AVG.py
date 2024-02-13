@@ -2,10 +2,10 @@ import pandas as pd
 import csv
 import numpy as np
 
-myFile = "C:\Users\Robotics\Documents\GitHub\ScoutingPASS\DataAnalysis\Book1.xlsx"
+myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/Book1.xlsx"
 
 # Reading an excel file
-excelFile = pd.read_excel(myFile,names=['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'SpeakScore-Auto', 'AmpScore-Teleop', 'SpeakScore-Teleop', 'Amplify#', 'PickupFrom', 'StageTimer', 'FinalStatus', 'Noteintrap?', 'DriverSkill', 'DefenseRating', 'SpeedRating', 'Died?', 'Tippy?', 'DroppedNotes?', 'GoodPartner?','Comments'])
+excelFile = pd.read_excel(myFile,names=['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'SpeakScore-Auto', 'AmpScore-Teleop', 'SpeakScore-Teleop', 'Amplify#', 'PickupFrom', 'StageTimer', 'FinalStatus', 'Noteintrap?', 'DriverSkill', 'DefenseRating', 'SpeedRating', 'Died?', 'Tippy?', 'DroppedNotes?', 'GoodPartner?'])
 
 # Converting excel file into CSV file
 excelFile.to_csv("ResultCsvFile.csv",index=False)
@@ -16,6 +16,7 @@ dataframeObject = pd.DataFrame(pd.read_csv("ResultCsvFile.csv"))
 
 # Displaying the dataframe object
 myData = dataframeObject.values.tolist()
+
 
 
 def get_match(num):
@@ -45,7 +46,7 @@ def get_match(num):
             print('                                                   ')
             
 
-def _allStuff(team):
+def allStuff(team):
     totals = [0.0,0,0,0,0,0,0,0]
     counter = 0
     for list in myData:
@@ -76,7 +77,7 @@ def _allStuff(team):
 
 
 def robot_avg(t):
-    stack = _allStuff(t)
+    stack = allStuff(t)
     print('Avg. amp score - auto: ' + str(stack[0]))
     print('Avg. speaker score - auto: ' + str(stack[1]))
     print('Avg. amp score - teleop: ' + str(stack[2]))

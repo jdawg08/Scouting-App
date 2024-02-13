@@ -13,6 +13,7 @@ var slide = 0;
 var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
+var hitOrMiss = [];
 
 // Options
 var options = {
@@ -1139,6 +1140,16 @@ function onFieldClick(event) {
       }
     } else {
       // No restrictions - add to array
+      let c = confirm("Press ok is scored, cancel if missed");
+      if(c === true){
+        console.log("Shot scored");
+      }
+      else{
+        console.log("Shot missed");
+      }
+      hitOrMiss.push(c);
+      console.log(hitOrMiss);
+      
       xyArr.push(coords);
       changingXY.value = JSON.stringify(xyArr);
 

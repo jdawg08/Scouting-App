@@ -1,0 +1,9 @@
+Scouter,Comp,Matchlvl,MatchNum,Robot,Team Number,Auto StartPosition,LeaveStartZone,AmpScore-Auto,SpeakScore-Auto,AmpScore-Teleop,SpeakScore-Teleop,Amplify#,PickupFrom,StageTimer,FinalStatus,Noteintrap?,DriverSkill,DefenseRating,SpeedRating,Died?,Tippy?,DroppedNotes?,GoodPartner?
+JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
+JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
+JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
+JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
+JZ,2023tnkn,qm,18,b3,63,[37],1,4,5,1,2,3,b,1.0,h,1,a,a,2,0,0,0,0
+JZ,2023tnkn,qm,19,b1,4462,[24],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
+JP,2023tnkn,qm,18,b3,63,[49],0,14,6,8,11,14,f,6.1,x,0,x,x,5,0,0,0,0
+JP,2023tnkn,qm,18,b3,63,[60],0,9,33,15,6,2,x,12.5,x,0,x,x,1,0,0,0,0
