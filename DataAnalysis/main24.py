@@ -1,2 +1,2 @@
 import AVG 
-AVG.standard_dev(63)
+AVG.get_match(2)

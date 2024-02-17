@@ -1,9 +1,5 @@
-Scouter,Comp,Matchlvl,MatchNum,Robot,Team Number,Auto StartPosition,LeaveStartZone,AmpScore-Auto,SpeakScore-Auto,AmpScore-Teleop,SpeakScore-Teleop,Amplify#,PickupFrom,StageTimer,FinalStatus,Noteintrap?,DriverSkill,DefenseRating,SpeedRating,Died?,Tippy?,DroppedNotes?,GoodPartner?
-JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
-JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
-JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
-JP,2023tnkn,qm,8,r1,2614,[37],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
-JZ,2023tnkn,qm,18,b3,63,[37],1,4,5,1,2,3,b,1.0,h,1,a,a,2,0,0,0,0
-JZ,2023tnkn,qm,19,b1,4462,[24],0,0,0,0,0,0,x,0.0,x,0,x,x,3,0,0,0,0
-JP,2023tnkn,qm,18,b3,63,[49],0,14,6,8,11,14,f,6.1,x,0,x,x,5,0,0,0,0
-JP,2023tnkn,qm,18,b3,63,[60],0,9,33,15,6,2,x,12.5,x,0,x,x,1,0,0,0,0
+Scouter,Comp,Matchlvl,MatchNum,Robot,Team Number,Auto StartPosition,LeaveStartZone,AmpScore-Auto,SpeakScore-Auto,AmpScore-Teleop,hit_miss_coords,hit_miss,SpeakScore-Teleop,Amplify#,PickupFrom,StageTimer,FinalStatus,Noteintrap?,DriverSkill,DefenseRating,SpeedRating,Died?,Tippy?,DroppedNotes?,GoodPartner?,Comments
+JP,2023tnkn,qm,2,b2,1730,[61],0,3,1,0,"[43,18,52]","[true,false,true,false,true,true,false,false]",2,7,s,19.3,h,1,v,b,4,0,1,1,0,
+JP,2023tnkn,qm,3,r3,325,[48],1,1,22,0,"[50,20,68,15]","[true,false,true,false,true,true,false,false,false,true,false,true]",3,3,f,2.6,a,1,n,b,2,0,0,0,1,wake up
+JM,2023tnkn,sf,4,b1,2856,[49],1,2,4,10,"[19,42,64,56,17,32]","[true,false,true,false,true,true,false,false,false,true,false,true,true,false,false,true,true,false]",5,3,b,117.2,o,0,x,e,2,1,0,0,1,
+BRF,2023tnkn,f,5,r3,27,[60],1,1,3,3,[],"[true,false,true,false,true,true,false,false,false,true,false,true,true,false,false,true,true,false]",3,7,x,18.0,p,1,v,g,1,1,0,0,0,:3/[)@#$%^!><?
