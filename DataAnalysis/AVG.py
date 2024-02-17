@@ -29,19 +29,22 @@ def get_match(num):
             print('Amp Score - Auto: ' + str(list[8]))
             print('Speaker Score - Auto: ' + str(list[9]))
             print('Amp Score - Teleop: ' + str(list[10]))
-            print('Speak Score - Teleop: ' + str(list[11]))
-            print('Times amplified: ' + str(list[12]))
-            print('Pickup from?: ' + str(list[13]))
-            print('Stage timer: ' + str(list[14]))
-            print('Final Status: ' + str(list[15]))
-            print('Note in trap?: ' + str(list[16]))
-            print('Driver Skill: ' + str(list[17]))
-            print('Defense Rating: ' + str(list[18]))
-            print('Speed Rating: ' + str(list[19]))
-            print('Died?: ' + str(list[20]))
-            print('Tippy?: ' + str(list[21]))
-            print('Dropped Notes: ' + str(list[22]))
-            print('Good Partner: ' + str(list[23]))
+            print('Hit/miss coords: ' + str(list[11]))
+            print('Hits or misses: ' + str(list[12]))
+            print('Speak Score - Teleop: ' + str(list[13]))
+            print('Times amplified: ' + str(list[14]))
+            print('Pickup from?: ' + str(list[15]))
+            print('Stage timer: ' + str(list[16]))
+            print('Final Status: ' + str(list[17]))
+            print('Note in trap?: ' + str(list[18]))
+            print('Driver Skill: ' + str(list[19]))
+            print('Defense Rating: ' + str(list[20]))
+            print('Speed Rating: ' + str(list[21]))
+            print('Died?: ' + str(list[22]))
+            print('Tippy?: ' + str(list[23]))
+            print('Dropped Notes: ' + str(list[24]))
+            print('Good Partner: ' + str(list[25]))
+            print('Comments: ' + str(list[26]))
             print('___________________________________________________')
             print('                                                   ')
             
@@ -58,13 +61,13 @@ def allStuff(team):
             #amp_sscore_teleop
             totals[2] += list[10]
             #speaker_score_teleop
-            totals[3] += list[11]
+            totals[3] += list[13]
             #times amplified
-            totals[4] += list[12]
+            totals[4] += list[14]
             #stage timer
-            totals[5] += list[14]
+            totals[5] += list[16]
             #speed_rating
-            totals[6] += list[19]
+            totals[6] += list[21]
         counter += 1 
     i = 0
     while i < len(totals):
@@ -88,28 +91,35 @@ def robot_avg(t):
     
     
 def standard_dev(team_num):
-    np.seterr(invalid='ignore')
     sd = []
-    holders = [8,9,10,11,12,14,19]
-    h_i = 0
-    for list in myData:
-        while h_i < len(holders):
+    holders = [8,9,10,13,14,16,21]
+    print("Meaning of values are in placer2.txt ---------")
+    for place in holders:
+        for list in myData:
             if list[5] == team_num:
-                sd.append(list[holders[h_i]])
+                sd.append(list[holders[place]])
+            print(sd)
             std = np.std(sd)
             print(std)
-            h_i += 1
-            sd = []
+            place += 1
+            sd.clear()
 
     
-def position_values():
+def position_values(type):
     print(myData)
-    temp = []
-    heatData = []
-    for l in myData:
-        temp.append(l[6])
-    for item in temp:
-        item = int(item[1:len(item)-1])
-        heatData.append(item)
-    print(heatData)
+    if type == 1:
+        #type 1 is auto starting positions
+        temp = []
+        heatData = []
+        for l in myData:
+            temp.append(l[6])
+        for item in temp:
+            item = int(item[1:len(item)-1])
+            heatData.append(item)
+        print(heatData)
+
+    #elif type == 2:
+        #type 2 is hit/miss coords
+
+    
     
