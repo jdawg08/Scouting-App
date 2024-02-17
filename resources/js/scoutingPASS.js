@@ -310,8 +310,25 @@ function addClickableImage(table, idx, name, data) {
   inp.setAttribute("id", "input_" + data.code);
   inp.setAttribute("value", "[]");
   inp.setAttribute("class", "clickableImage");
-
   cell.appendChild(inp);
+  
+  if(data.track_h_m){
+    inp = document.createElement('input');
+    inp.setAttribute("type", "hidden");
+    inp.setAttribute("id", "hit_or_miss_" + data.code);
+    inp.setAttribute("name", "hit_or_miss_" + data.code);
+    inp.setAttribute("value", "[]");
+    cell.appendChild(inp);
+  }
+  
+
+
+
+
+  ///list of hit or miss
+  console.log(data);
+
+  
 
   // TODO: Make these more efficient/elegant
   inp = document.createElement('input');
@@ -610,6 +627,8 @@ function addCheckbox(table, idx, name, data) {
     def.setAttribute("value", data.defaultValue);
     cell2.appendChild(def);
   }
+
+
 
   return idx + 1;
 }
@@ -1105,6 +1124,7 @@ function onFieldClick(event) {
 
   //Cumulating values
   let changingXY = document.getElementById("XY" + base);
+  let hits = document.getElementById("hit_or_miss" + base);
   let changingInput = document.getElementById("input" + base);
   let clickRestriction = document.getElementById("clickRestriction" + base).value;
   let toggleClick = document.getElementById("toggleClick" + base).value;
@@ -1147,8 +1167,13 @@ function onFieldClick(event) {
       else{
         console.log("Shot missed");
       }
+      
       hitOrMiss.push(c);
-      console.log(hitOrMiss);
+      hits.value = JSON.stringify(hitOrMiss);
+      
+      
+      
+      
       
       xyArr.push(coords);
       changingXY.value = JSON.stringify(xyArr);
