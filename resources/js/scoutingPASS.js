@@ -14,6 +14,7 @@ var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
 var hitOrMiss = [];
+var hitOrMissCoords = [];
 
 // Options
 var options = {
@@ -319,6 +320,14 @@ function addClickableImage(table, idx, name, data) {
     inp.setAttribute("name", "hit_or_miss_" + data.code);
     inp.setAttribute("value", "[]");
     cell.appendChild(inp);
+
+    inp = document.createElement('input');
+    inp.setAttribute("type", "hidden");
+    inp.setAttribute("id", "h_m_coords_" + data.code);
+    inp.setAttribute("name", "h_m_coords_" + data.code);
+    inp.setAttribute("value", "[]");
+    cell.appendChild(inp);
+
   }
   
 
@@ -1063,19 +1072,40 @@ function drawFields(name) {
     ctx.drawImage(img, 0, 0, f.width, f.height);
 
     var xyStr = document.getElementById("XY_" + code).value
+    var hitOrMissElement = document.getElementById("hit_or_miss_" + code);
+    var hitOrMissValue = null;
+     if (hitOrMissElement){
+      hitOrMissValue = hitOrMissElement.value;
+     }
     if (JSON.stringify(xyStr).length > 2) {
       pts = Array.from(JSON.parse(xyStr))
-      for (p of pts) {
+      var makeIt = null;
+      if (hitOrMissValue){
+        makeIt = Array.from(JSON.parse(hitOrMissValue));
+      }
+
+      for (i = 0; i < pts.length; i++) {
+        p = pts[i]
         var coord = p.split(",")
         var centerX = coord[0];
         var centerY = coord[1];
         var radius = 5;
+        var fillStyle = shapeArr[3];
         ctx.beginPath();
         if (shapeArr[0].toLowerCase() == 'circle') {
-          ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
-        } else {
-          ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        }
+          if (hitOrMissElement){
+            if (makeIt[i]){
+              ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
+            }
+            else{
+              ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
+              fillStyle = "white";
+            }
+          }  
+          else {
+            ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
+          }
+      }
         ctx.lineWidth = 2;
         if (shapeArr[2] != "") {
           ctx.strokeStyle = shapeArr[2];
@@ -1083,7 +1113,7 @@ function drawFields(name) {
           ctx.strokeStyle = '#FFFFFF';
         }
         if (shapeArr[4].toLowerCase() == 'true') {
-          ctx.fillStyle = shapeArr[3];
+          ctx.fillStyle = fillStyle;
         }
         ctx.stroke();
         if (shapeArr[4].toLowerCase() == 'true') {
@@ -1125,6 +1155,7 @@ function onFieldClick(event) {
   //Cumulating values
   let changingXY = document.getElementById("XY" + base);
   let hits = document.getElementById("hit_or_miss" + base);
+  let hit_coords = document.getElementById("h_m_coords" + base);
   let changingInput = document.getElementById("input" + base);
   let clickRestriction = document.getElementById("clickRestriction" + base).value;
   let toggleClick = document.getElementById("toggleClick" + base).value;
@@ -1161,6 +1192,7 @@ function onFieldClick(event) {
     } else {
       // No restrictions - add to array
       let c = confirm("Press ok is scored, cancel if missed");
+      let hmc = [event.offsetX,event.offsetY];
       if(c === true){
         console.log("Shot scored");
       }
@@ -1169,7 +1201,11 @@ function onFieldClick(event) {
       }
       
       hitOrMiss.push(c);
+      //push coords of dot
+      hitOrMissCoords.push(hmc);
+
       hits.value = JSON.stringify(hitOrMiss);
+      hit_coords.value = JSON.stringify(hitOrMissCoords);
       
       
       
