@@ -1098,8 +1098,8 @@ function drawFields(name) {
               ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
             }
             else{
-              ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
               fillStyle = "white";
+              ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
             }
           }  
           else {

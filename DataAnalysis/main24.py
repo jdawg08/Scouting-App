@@ -1,2 +1,2 @@
 import AVG 
-AVG.get_match(2)
+AVG.position_values(1)
