@@ -2,11 +2,14 @@ import pandas as pd
 from pandas.core.common import flatten
 import csv
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/experimental.xlsx"
 
 # Reading an excel file
-excelFile = pd.read_excel(myFile)
+names = ['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'SpeakScore-Auto', 'AmpScore-Teleop','hit_miss_coords', 'hit_miss', 'hit_and_miss_xandy', 'SpeakScore-Teleop', 'Amplify#', 'PickupFrom', 'StageTimer', 'FinalStatus', 'Noteintrap?', 'DriverSkill', 'DefenseRating', 'SpeedRating', 'Died?', 'Tippy?', 'DroppedNotes?', 'GoodPartner?','Comments']
+excelFile = pd.read_excel(myFile,header=None,names=names)
 
 # Converting excel file into CSV file
 excelFile.to_csv("ResultCsvFile.csv",index=False)
@@ -52,7 +55,7 @@ def get_match(num):
             print(' ')
             
 
-def allStuff(team):
+def __allStuff(team):
     totals = [0.0,0,0,0,0,0,0,0]
     counter = 0
     for list in myData:
@@ -83,7 +86,7 @@ def allStuff(team):
 
 
 def robot_avg(t):
-    stack = allStuff(t)
+    stack = __allStuff(t)
     print('Avg. amp score - auto: ' + str(stack[0]))
     print('Avg. speaker score - auto: ' + str(stack[1]))
     print('Avg. amp score - teleop: ' + str(stack[2]))
@@ -95,40 +98,51 @@ def robot_avg(t):
     
 def standard_dev(team_num):
     sd = []
+    labelers = 0
     holders = [8,9,10,14,15,17,22]
-    print("Meaning of values are in placer2.txt ---------")
-    for place in holders:
+    place = 0
+    while place < len(holders):
         for list in myData:
             if list[5] == team_num:
-                sd.append(list[holders[place]])
-            print(sd)
-            std = np.std(sd)
-            print(std)
-            place += 1
-            sd.clear()
+                tempor = holders[place]
+                sd.append(list[tempor])
+        std = np.std(sd)
+        labelers = holders[place]
+        print(names[labelers] + ": standard deviation is " + str(std))
+        #print(std)
+        sd.clear()
+        place += 1
+
+def __split_list(lst, n):
+    """Split a list into a list of lists with n items per sublist.
+
+    Args:
+        lst: The input list.
+        n: The number of items per sublist.
+
+    Returns:
+        A list of lists, each with n items.
+    """
+
+    result = []
+    for i in range(0, len(lst), n):
+        result.append(lst[i:i + n])
+    return result
 
     
 def position_values(type):
     labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
-    pos_vals = []
-    set_1 = [0 for x in range(1,13)]
-    set_2 = [0 for x in range(13,25)]
-    set_3 = [0 for x in range(25,37)]
-    set_4 = [0 for x in range(37,49)]
-    set_5 = [0 for x in range(49,61)]
-    set_6 = [0 for x in range(61,73)]
-    pos_vals.append(set_1)
-    pos_vals.append(set_2)
-    pos_vals.append(set_3)
-    pos_vals.append(set_4)
-    pos_vals.append(set_5)
-    pos_vals.append(set_6)
+    labels = __split_list(labels,12)
+    labels = np.array(labels)
+    pos_vals = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    counter = 0
+    
     #pos_vals = list(flatten(pos_vals))
     #labels for heatmap
-    print(pos_vals)
     
     if type == 1:
         #type 1 is auto starting positions
+        i = 0
         temp = []
         heatData = []
         for l in myData:
@@ -136,7 +150,20 @@ def position_values(type):
         for item in temp:
             item = int(item[1:len(item)-1])
             heatData.append(item)
-        print(heatData)
+
+        while i < len(heatData):
+            variable = heatData[i]
+            pos_vals[variable-1] = variable
+            i += 1
+        pos_vals = __split_list(pos_vals,12)
+        pos_vals = np.array(pos_vals)
+
+        formatted_text = (np.asarray(["{0}\n{1:.2f}".format(labels, pos_vals) for pos_vals, labels in zip(pos_vals.flatten(), labels.flatten())])).reshape(6, 12)
+
+        map1 = sns.heatmap(data=pos_vals,cmap="cool",xticklabels=False,yticklabels=False,annot=formatted_text,fmt="")
+        plt.show()
+
+        
 
     #elif type == 2:
         #type 2 is hit/miss coords'''
