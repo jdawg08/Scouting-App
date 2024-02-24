@@ -134,89 +134,24 @@ def __split_list(lst, n):
         result.append(lst[i:i + n])
     return result
 
-def max_min_hit_miss():
-    '''Tells which positions has highest and lowest # of scores and misses'''
-    i = 1
-    set = []
-    min = [100000,100000]
-    max = [0,0]
-    #gets hit and miss boolean(true and false) along with positions and maps them accordingly
-    data_of_scores =__make_list_of_tuples(72)
-    for list in myData:
-        set.clear()
-        group = list[11]
-        group = group.strip("[]")
-        group = group.split(",")
-        for n in group:
-            n = int(n)
-            set.append(n)
-            
-        temp = list[12]
-        temp = temp.strip("[]")
-        temp = temp.split(",")
-        k = 0
-        while k < len(temp) - 1:
-            if temp[k] == "true":
-                temp[k] = 1
-                t = temp[k]
-                data_of_scores[set[k-1]][0].append(t)
-            elif temp[k] == "false":
-                temp[k] = 1
-                t = temp[k]
-                data_of_scores[set[k-1]] = list(data_of_scores[set[k-1]])
-                data_of_scores[set[k-1]][1].append(t)
-                data_of_scores[set[k-1]]  = tuple(data_of_scores[set[k-1]])
-        
-        #check which position has max/min # of hits/misses
-        
-    for u in data_of_scores:
-        #min # of hits
-        if data_of_scores[u][0] < min[0]:
-            min[0] = data_of_scores[u][0]
-        #min # of misses
-        elif data_of_scores[u][1] < min[1]:
-            min[1] = data_of_scores[u][1]
-        #max # of hits
-        elif data_of_scores[u][0] > max[0]:
-            max[0] = data_of_scores[u][0]
-        #max # of misses
-        elif data_of_scores[u][1] > max[1]:
-            max[1] = data_of_scores[u][1]
-        
-        return max,min
-            
-
-            
-            
-
-
-
-    
-    ''' for cluster in myData: 
-            group = cluster[11]
-            group = group.strip("[]")
-            group = group.split(",")
-            for n in group:
-                n = int(n)
-                set.append(n)'''
 
     
 def position_values(version):
     '''
         For the parameter, 1 is auton start position heatmap, 2 is hit/miss position heatmap
     '''
-    score_stuff = max_min_hit_miss()
-    print(score_stuff)
+    #score_stuff = max_min_hit_miss()
+    #print(score_stuff)
     labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
-    labels = __split_list(labels,12)
-    labels = np.array(labels)
     pos_vals = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    labels = __split_list(labels,12)
     counter = 0
     
     #pos_vals = list(flatten(pos_vals))
     #labels for heatmap
     temp = []
     heatData = []
+    i=0
     if version == 1:
         #type 1 is auto starting positions
         for l in myData:
@@ -225,6 +160,10 @@ def position_values(version):
             item = int(item[1:len(item)-1])
             heatData.append(item)
     elif version == 2:
+        w = 0
+        while w < len(pos_vals):
+            pos_vals[w] = [0,0]
+            w += 1
         for cluster in myData: 
             group = cluster[11]
             group = group.strip("[]")
@@ -232,20 +171,68 @@ def position_values(version):
             for n in group:
                 n = int(n)
                 heatData.append(n) 
-        print(heatData)
+            
+            #turn true and false into 0s and 1s
+            t_f = cluster[12]
+            t_f = t_f.strip("[]")
+            t_f = t_f.split(",")
+            p = 0
+            while p < len(t_f):
+                if t_f[p] == "true":
+                    t_f[p] = 1
+                elif t_f[p] == "false":
+                    t_f[p] = 0
+                p+=1
+            
+
+        thing = 0
+        while thing < len(t_f):
+            if t_f[thing] == 1:
+                placer = heatData[thing] - 1
+                pos_vals[placer][0] += 1
+            elif t_f[thing] == 0:
+                placer = heatData[thing] - 1
+                pos_vals[placer][1] += 1
+            thing += 1
+        print(pos_vals)
+
+        totals = []
+        totals2 = []
+        #scores
+        for x in pos_vals:
+            totals.append(x[0])
+        totals = __split_list(totals,12) 
+        #misses
+        for g in pos_vals:
+            totals2.append(g[0])
+        totals2 = __split_list(totals2,12) 
+         
+      
+        
+            
+        
     
     #Labels for the heatmap are made to shown along with data
-    while i < len(heatData):
-        variable = heatData[i]
-        pos_vals[variable-1] = variable
-        i += 1
-    pos_vals = __split_list(pos_vals,12)
-    pos_vals = np.array(pos_vals)
+    if version == 1:
+        while i < len(heatData):
+            variable = heatData[i]
+            pos_vals[variable-1] += 1
+            i += 1
+        pos_vals = __split_list(pos_vals,12)  
+        labels = np.array(labels)
 
-    formatted_text = (np.asarray(["{0}\n{1:.2f}".format(labels, pos_vals) for pos_vals, labels in zip(pos_vals.flatten(), labels.flatten())])).reshape(6, 12)
+    if version == 1:
+        formatted_text = (np.asarray(["{0}\n{1:.2f}".format(labels, pos_vals) for pos_vals, labels in zip(pos_vals.flatten(), labels.flatten())])).reshape(6, 12)
+        map1 = sns.heatmap(data=pos_vals,cmap="cool",xticklabels=False,yticklabels=False,annot=formatted_text,fmt="")
+        plt.show()
 
-    map1 = sns.heatmap(data=pos_vals,cmap="cool",xticklabels=False,yticklabels=False,annot=formatted_text,fmt="")
-    plt.show()
+    elif version == 2:
+        map1max = sns.heatmap(data=totals,cmap="cool",xticklabels=False,yticklabels=False,annot=labels,fmt="")
+        plt.show()
+        map1min= sns.heatmap(data=totals2,cmap="cool",xticklabels=False,yticklabels=False,annot=labels,fmt="")
+        plt.show()
+
+    
 
     #print("Position with max # of hits is " + str(max[0]) + " and position with min # of hits is" + str(min(0)) + ".")
     #print("Position with max # of misses is " + str(max[1]) + " and position with min # of misses is" + str(min(1)) + ".")
