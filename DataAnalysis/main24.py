@@ -1,2 +1,2 @@
 import AVG 
-AVG.position_values(1)
+AVG.max_min_hit_miss()
