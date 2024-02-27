@@ -61,8 +61,7 @@ var config_data = `
       "filename": "2024/field_image.png",
       "clickRestriction": "one",
       "allowableResponses": "1 12 13 24 25 36 37 48 49 60 61 72",
-      "shape": "circle 5 black red true",
-      "track_h_m":false
+      "shape": "circle 5 black red true"
     }
   ],
   "auton": [
@@ -74,31 +73,42 @@ var config_data = `
       "code": "aas",
       "type": "counter"
     },
+    { "name": "Amp Misses",
+      "code": "aam",
+      "type": "counter"
+    },
     { "name": "Speaker Scores",
       "code": "ass",
+      "type": "counter"
+    },
+    { "name": "Speaker Misses",
+      "code": "asm",
       "type": "counter"
     }
   ],
   "teleop": [
-    { "name": "Amp Scores",
+    { "name": "Near Scores",
       "code": "tas",
       "type": "counter"
     },
-    { "name": "Shoot position",
-      "code": "ts",
-      "type": "clickable_image",
-      "filename": "2024/field_image.png",
-      "clickRestriction": "zero",
-      "allowableResponses": "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72",
-      "shape": "circle 5 black red true",
-      "track_h_m":true
-    },
-    { "name": "Speaker Scores",
+    { "name": "Near Misses",
       "code": "tss",
       "type": "counter"
     },
-    { "name": "Times Amplified",
-      "code": "tta",
+    { "name": "Far Away Scores",
+      "code": "tss",
+      "type": "counter"
+    },
+    { "name": "Far Away Misses",
+      "code": "tss",
+      "type": "counter"
+    },
+    { "name": "Amp Scores",
+      "code": "tss",
+      "type": "counter"
+    },
+    { "name": "Amp Misses",
+      "code": "tss",
       "type": "counter"
     },
     { "name": "Pickup From",
@@ -114,25 +124,37 @@ var config_data = `
     }
   ],
   "endgame": [
-    { "name": "Stage Timer",
-      "code": "dt",
-      "type": "timer"
-    },
     { "name": "Final Status",
       "code": "fs",
       "type":"radio",
       "choices": {
         "p": "Parked<br>",
         "o": "Onstage<br>",
-        "s": "Onstage (Spotlit)<br>",
         "h": "Harmony<br>",
         "a": "Attempted but failed<br>",
         "x": "Not attempted"
       },
       "defaultValue": "x"
     },
+    { "name": "Chain Position",
+      "code": "fs",
+      "type":"radio",
+      "choices": {
+        "mid": "Middle<br>",
+        "side": "Side"
+      },
+      "defaultValue": "side"
+    },
     { "name": "Note in Trap",
       "code": "nit",
+      "type": "bool"
+    },
+    { "name": "High note human player?",
+      "code": "hp",
+      "type": "bool"
+    },
+    { "name": "Made High Note?",
+      "code": "madesp",
       "type": "bool"
     }
   ],
@@ -143,8 +165,7 @@ var config_data = `
       "choices": {
         "n": "Not Effective<br>",
         "a": "Average<br>",
-        "v": "Very Effective<br>",
-        "x": "Not Observed"
+        "v": "Very Effective<br>"
       },
       "defaultValue": "x"
     },
@@ -180,13 +201,8 @@ var config_data = `
       "code": "tip",
       "type": "bool"
     },
-    { "name": "Dropped Notes (>2)",
+    { "name": "Note stuck in robot? (>2)",
       "code": "dn",
-      "type": "bool"
-    },
-    { "name": "Make good<br>alliance partner?",
-      "tooltip": "Would you want this robot on your alliance in eliminations?",
-      "code": "all",
       "type": "bool"
     },
     { "name": "Comments",
@@ -194,6 +210,13 @@ var config_data = `
       "type": "text",
       "size": 15,
       "maxSize": 55
+    },
+    { "name": "# of Penalties",
+      "code": "pe",
+      "type": "pens",
+      "size": 3,
+      "maxSize": 5,
+      "required": "false"
     }
   ]
 }`;

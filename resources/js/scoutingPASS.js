@@ -13,8 +13,8 @@ var slide = 0;
 var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
-var hitOrMiss = [];
-var hitOrMissCoords = [];
+//var hitOrMiss = [];
+//var hitOrMissCoords = [];
 
 // Options
 var options = {
@@ -313,6 +313,7 @@ function addClickableImage(table, idx, name, data) {
   inp.setAttribute("class", "clickableImage");
   cell.appendChild(inp);
   
+  /*
   if(data.track_h_m){
     inp = document.createElement('input');
     inp.setAttribute("type", "hidden");
@@ -327,15 +328,11 @@ function addClickableImage(table, idx, name, data) {
     inp.setAttribute("name", "h_m_coords_" + data.code);
     inp.setAttribute("value", "[]");
     cell.appendChild(inp);
-
   }
-  
+  */
 
 
 
-
-  ///list of hit or miss
-  console.log(data);
 
   
 
@@ -670,7 +667,7 @@ function addElement(table, idx, data) {
     (data.type == 'robot')
   ) {
     idx = addRadio(table, idx, name, data);
-  } else if ((data.type == 'match') ||
+  } else if ((data.type == 'match') || (data.type == 'pens') ||
     (data.type == 'team') ||
     (data.type == 'number')
   ) {
@@ -1075,13 +1072,13 @@ function drawFields(name) {
     var hitOrMissElement = document.getElementById("hit_or_miss_" + code);
     var hitOrMissValue = null;
      if (hitOrMissElement){
-      hitOrMissValue = hitOrMissElement.value;
-     }
+     hitOrMissValue = hitOrMissElement.value;
+    }
     if (JSON.stringify(xyStr).length > 2) {
       pts = Array.from(JSON.parse(xyStr))
       var makeIt = null;
       if (hitOrMissValue){
-        makeIt = Array.from(JSON.parse(hitOrMissValue));
+       makeIt = Array.from(JSON.parse(hitOrMissValue));
       }
 
       for (i = 0; i < pts.length; i++) {
@@ -1095,16 +1092,16 @@ function drawFields(name) {
         if (shapeArr[0].toLowerCase() == 'circle') {
           if (hitOrMissElement){
             if (makeIt[i]){
-              ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
+          ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
             }
-            else{
+          else {
               fillStyle = "white";
               ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
             }
           }  
-          else {
+         else {
             ctx.arc(centerX, centerY, shapeArr[1], 0, 2 * Math.PI, false);
-          }
+          
       }
         ctx.lineWidth = 2;
         if (shapeArr[2] != "") {
@@ -1120,9 +1117,11 @@ function drawFields(name) {
           ctx.fill();
         }
       }
+      }
     }
   }
-}
+  }
+     
 
 function onFieldClick(event) {
   let target = event.target;
@@ -1154,12 +1153,12 @@ function onFieldClick(event) {
 
   //Cumulating values
   let changingXY = document.getElementById("XY" + base);
-  let hits = document.getElementById("hit_or_miss" + base);
-  let hit_coords = document.getElementById("h_m_coords" + base);
+  //let hits = document.getElementById("hit_or_miss" + base);
+  //let hit_coords = document.getElementById("h_m_coords" + base);
   let changingInput = document.getElementById("input" + base);
   let clickRestriction = document.getElementById("clickRestriction" + base).value;
   let toggleClick = document.getElementById("toggleClick" + base).value;
-  let cycleTimer = document.getElementById("cycleTimer" + base);
+  //let cycleTimer = document.getElementById("cycleTimer" + base);
   let boxArr = Array.from(JSON.parse(changingInput.value));
   let xyArr = Array.from(JSON.parse(changingXY.value));
 
@@ -1189,7 +1188,7 @@ function onFieldClick(event) {
         xyArr.push(coords);
         changingXY.value = JSON.stringify(xyArr);
       }
-    } else {
+    } /*else {
       // No restrictions - add to array
       let c = confirm("Press ok is scored, cancel if missed");
       let hmc = [event.offsetX,event.offsetY];
@@ -1218,12 +1217,13 @@ function onFieldClick(event) {
       changingInput.value = JSON.stringify(boxArr);
     }
     // If associated with cycleTimer - send New Cycle EVENT
-    if (cycleTimer != null) {
-      document.getElementById("cycle_" + cycleTimer.value).click();
-    }
-  }
+    //if (cycleTimer != null) {
+    //  document.getElementById("cycle_" + cycleTimer.value).click();
+    //}
+  }*/
 
   drawFields()
+}
 }
 
 function findMiddleOfBox(boxNum, width, height, resX, resY) {
@@ -1336,9 +1336,9 @@ function counter(element, step) {
   }
 
   // If associated with cycleTimer - send New Cycle EVENT
-  if (step >= 0 && cycleTimer != null) {
-    document.getElementById("cycle_" + cycleTimer.value).click();
-  }
+  //if (step >= 0 && cycleTimer != null) {
+    //document.getElementById("cycle_" + cycleTimer.value).click();
+ // }
 }
 
 function newCycle(event)
@@ -1371,7 +1371,7 @@ function undoCycle(event) {
   d.value = cycleInput.value.replace(/\"/g,'').replace(/\[/g, '').replace(/\]/g, '').replace(/,/g, ', ');
 }
 
-function resetTimer(event) {
+/*function resetTimer(event) {
   let timerID = event.firstChild;
   let tId = getIdBase(timerID.id);
   let inp = document.getElementById("input" + tId)
@@ -1421,7 +1421,7 @@ function timer(event) {
   }
   drawFields();
 }
-
+*/
 function undo(event) {
   let undoID = event.firstChild;
   //Getting rid of last value
