@@ -1,6 +1,6 @@
 var config_data = `
 {
-  "dataFormat": "tsv",
+  "dataFormat": "kvs",
   "title": "Scouting PASS 2024",
   "page_title": "Crescendo",
   "checkboxAs": "10",
@@ -78,7 +78,7 @@ var config_data = `
       "type": "counter"
     },
     { "name": "Speaker Scores",
-      "code": "ass",
+      "code": "asc",
       "type": "counter"
     },
     { "name": "Speaker Misses",
@@ -88,31 +88,31 @@ var config_data = `
   ],
   "teleop": [
     { "name": "Near Scores",
-      "code": "tas",
+      "code": "tsc",
       "type": "counter"
     },
     { "name": "Near Misses",
-      "code": "tss",
+      "code": "tsm",
       "type": "counter"
     },
     { "name": "Far Away Scores",
-      "code": "tss",
+      "code": "tsfc",
       "type": "counter"
     },
     { "name": "Far Away Misses",
-      "code": "tss",
+      "code": "tsfm",
       "type": "counter"
     },
     { "name": "Amp Scores",
-      "code": "tss",
+      "code": "tas",
       "type": "counter"
     },
     { "name": "Amp Misses",
-      "code": "tss",
+      "code": "tam",
       "type": "counter"
     },
     { "name": "Pickup From",
-      "code": "tpu",
+      "code": "pt",
       "type": "radio",
       "choices": {
         "s": "Source<br>",
@@ -137,7 +137,7 @@ var config_data = `
       "defaultValue": "x"
     },
     { "name": "Chain Position",
-      "code": "fs",
+      "code": "cp",
       "type":"radio",
       "choices": {
         "mid": "Middle<br>",
@@ -154,7 +154,7 @@ var config_data = `
       "type": "bool"
     },
     { "name": "Made High Note?",
-      "code": "madesp",
+      "code": "madehp",
       "type": "bool"
     }
   ],
