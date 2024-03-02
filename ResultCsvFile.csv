@@ -1,7 +1,104 @@
-Scouter,Comp,Matchlvl,MatchNum,Robot,Team Number,Auto StartPosition,LeaveStartZone,AmpScore-Auto,SpeakScore-Auto,AmpScore-Teleop,hit_miss_coords,hit_miss,hit_and_miss_xandy,SpeakScore-Teleop,Amplify#,PickupFrom,StageTimer,FinalStatus,Noteintrap?,DriverSkill,DefenseRating,SpeedRating,Died?,Tippy?,DroppedNotes?,GoodPartner?,Comments
-JP,2023tnkn,qm,3,b1,8214,[1],1,4,7,4,"[30,4,42,31,19,55,54,53,18]","[true,false,true,false,true,false,false,true,false]","[[148,59],[85,19],[131,93],[164,55],[171,28],[162,106],[128,108],[104,113],[147,29]]",3,6,b,4.8,h,1,v,a,2,1,0,0,1,sigma
-JP,2023tnkn,qm,4,b2,7516,[36],1,1,3,16,"[17,45,52,35,31,58,7]","[true,false,true,false,true,false,false,true,false,true,false,true,false,true,false,true]","[[148,59],[85,19],[131,93],[164,55],[171,28],[162,106],[128,108],[104,113],[147,29],[120,43],[201,97],[83,101],[258,56],[170,64],[246,113],[173,12]]",2,4,f,9.4,h,1,a,e,5,1,0,1,0,sigma
-JAM,2023tnkn,qm,5,b3,5744,[60],0,1,39,3,"[46,18,28,26,62]","[true,false,true,false,true,false,false,true,false,true,false,true,false,true,false,true,true,false,true,false,false]","[[148,59],[85,19],[131,93],[164,55],[171,28],[162,106],[128,108],[104,113],[147,29],[120,43],[201,97],[83,101],[258,56],[170,64],[246,113],[173,12],[248,76],[135,48],[86,73],[40,74],[48,134]]",2,6,f,13.4,h,0,n,x,2,1,1,1,0,
-VP,2023tnkn,qm,6,r1,1466,[48],1,2,3,12,"[2,1,61,72,12,40,18,65,29,14,54]","[true,false,true,false,true,false,false,true,false,true,false,true,false,true,false,true,true,false,true,false,false,false,true,false,true,true,true,false,true,true,true,true]","[[148,59],[85,19],[131,93],[164,55],[171,28],[162,106],[128,108],[104,113],[147,29],[120,43],[201,97],[83,101],[258,56],[170,64],[246,113],[173,12],[248,76],[135,48],[86,73],[40,74],[48,134],[34,21],[3,1],[6,148],[296,142],[296,6],[100,77],[143,40],[112,139],[121,58],[43,37],[137,102]]",2,2,x,0.6,s,1,v,x,5,0,0,1,1,
-Lg3,2023tnkn,qm,7,b2,7525,[37],1,3,0,0,"[16,6,7,30,43]","[true,false,true,false,true,false,false,true,false,true,false,true,false,true,false,true,true,false,true,false,false,false,true,false,true,true,true,false,true,true,true,true,true,true,false,false,false]","[[148,59],[85,19],[131,93],[164,55],[171,28],[162,106],[128,108],[104,113],[147,29],[120,43],[201,97],[83,101],[258,56],[170,64],[246,113],[173,12],[248,76],[135,48],[86,73],[40,74],[48,134],[34,21],[3,1],[6,148],[296,142],[296,6],[100,77],[143,40],[112,139],[121,58],[43,37],[137,102],[97,42],[129,1],[157,12],[141,75],[160,96]]",1,3,s,11.1,a,1,v,g,3,1,1,0,1,:3/[)@#$%^!><?
-JP,2023tnkn,qm,3,b1,8214,[37],1,8,0,4,"[31,18,44,31,31,19,19]","[true,false,false,true,true,true,false]","[[172,62],[143,46],[184,82],[161,64],[155,73],[153,38],[163,36]]",10,2,b,3.9,p,0,v,a,4,1,1,1,1,gee
+scouter,eventCode,matchLevel,matchNumber,robot,teamNumber,autoStartingLocation,autoLeave,Auto Amp Scores,Auto Amp Misses,Auto Speaker Scores,Auto Speaker Misses,Near Score,Near Miss,Far Score,Far Miss,Amp Scores,Amp Misses,Pickup Type,Final Status,Chain Position,Trap,High Note Attempt,High Note Scored,driverSkill,defenseRating,speedRating,Died or Immobilized,Tippy,Note Stuck,comments,Penalties
+S.S.G,2024week0,qm,1,r1,1690,[48],1,4,3,0,0,1,0,4,4,2,0,s,a,mid,0,0,0,v,x,5,0,0,0,Frequently defended,
+ERL,2024week0,qm,1,r1,1690,[48],1,0,0,2,2,4,0,1,2,5,1,f,a,mid,0,0,0,a,b,5,0,0,0,Awkward driving ,0.0
+KS,2024week0,f,1,r1,1690,[36],1,3,1,0,0,4,0,1,0,5,0,b,a,mid,0,0,0,v,x,5,0,0,0,,
+AV,2024week0,qm,1,r1,88,[48],1,4,3,0,0,1,0,4,1,2,0,x,x,side,0,0,0,v,x,5,0,0,0,,
+JP,2024week0,f,1,r1,1690,[24],1,3,1,0,0,3,0,1,2,5,0,x,x,side,0,0,0,a,x,3,0,0,0,,
+ADO,2024week0,f,1,r1,1690,[48],1,0,0,3,2,3,1,2,3,3,1,f,p,mid,0,1,0,v,a,5,0,0,0,,
+EBB,2024week0,qm,1,r1,88,[36],0,0,0,2,3,3,0,1,2,5,0,x,p,mid,0,0,0,v,b,5,0,0,0,W,
+CTP,2024week0,qm,1,r1,88,[48],1,0,0,3,3,3,1,1,1,5,1,b,p,mid,0,0,0,v,x,5,0,0,0,Had a few notes that went slowly out and fell down. ,
+ZD,2024week0,qm,1,r1,1690,[48],1,0,0,1,2,1,1,1,2,3,0,b,o,mid,0,0,0,v,x,5,0,0,0, Good at score Amp,0.0
+CMH,2024week0,f,1,r2,1690,[48],1,6,2,7,3,3,1,4,2,6,1,b,o,mid,0,0,0,a,x,5,0,0,0,,
+A.F.O,2024week0,qm,1,r1,1690,[36],1,0,0,2,3,1,0,2,2,2,0,f,p,mid,0,0,0,v,x,5,0,0,0,Made a lot of far speaker shots but some speaker shots ,
+CMC,2024week0,f,1,r1,1690,[36],0,0,0,2,0,2,0,1,2,2,0,b,p,side,0,0,0,v,a,4,0,0,0,Very good team,0.0
+LS,2024week0,f,3,r1,1690,[36],0,0,0,3,3,3,1,2,1,4,0,b,p,side,0,0,0,v,x,5,0,0,0,,
+DKE,2024week0,qm,1,r2,1690,[36],1,2,0,3,4,3,0,2,2,2,1,f,a,mid,0,0,0,v,x,5,0,0,0,Did alot of shooting ,
+CDE,2024week0,f,1,r2,1690,[36],1,2,0,2,4,1,0,4,2,2,1,b,o,mid,0,0,0,v,x,5,0,0,0,,
+CSC,2024week0,qm,1,r1,1690,[36],1,0,0,1,2,4,1,3,1,4,1,f,a,side,0,0,0,v,x,5,0,0,0,,
+CJ,2024week0,qm,1,r1,88,[36],1,0,0,2,4,3,2,1,2,5,0,b,p,side,0,0,0,v,x,5,0,0,0,Very good at amp scoring,
+FOO,2024week0,qm,1,r1,1690,[24],1,4,3,3,2,5,1,0,0,0,0,x,x,side,0,0,0,a,x,5,0,0,0,,
+SGG,2024week0,qm,1,r1,1690,[48],1,4,0,0,0,8,1,1,1,4,0,x,a,mid,0,0,0,v,x,5,0,0,0,Pretty good ,
+LJA,2024week0,qm,1,r2,6956,[36],1,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,n,x,2,1,0,0,"No auton started teleop and froze, then got in the way ",
+ADO,2024week0,qm,1,r3,5402,[12],0,0,0,0,0,4,2,0,0,0,0,f,o,side,0,1,0,a,a,4,0,0,0,,0.0
+ATC,2024week0,qm,1,b2,1024,[13],0,0,0,0,0,2,3,0,0,0,0,b,o,mid,0,1,0,a,a,3,0,0,0,Did ok,0.0
+KS,2024week0,qm,1,b3,5484,[13],0,0,0,1,2,6,0,0,0,1,0,b,p,side,0,1,0,v,x,4,0,0,0,,
+AV,2024week0,qm,1,b3,2423,[13],0,0,0,1,2,6,0,0,0,1,0,x,p,side,0,1,0,v,x,4,0,0,0,,
+SGG,2024week0,qm,1,r1,461,[36],1,0,0,2,0,2,0,0,1,5,0,b,o,side,0,0,0,a,x,3,0,0,0,Average performance ,0.0
+EAR,2024week0,qm,1,b1,45,[37],0,0,0,0,0,0,0,0,0,1,0,b,o,side,0,1,0,a,x,3,0,0,0,Unreliable data,
+AV,2024week0,qm,2,b3,1646,[13],1,0,0,0,0,1,0,0,0,0,0,x,o,side,0,0,0,n,x,1,1,0,0,Glitchy movement,
+KS,2024week0,qm,2,b3,1646,[13],1,0,0,0,0,1,0,0,0,0,0,x,o,mid,0,0,0,n,x,1,1,0,0,Glitchy movement,
+LJA,2024week0,qm,2,r2,3936,[24],1,0,0,0,0,0,2,0,0,0,0,f,a,mid,0,0,0,n,a,2,0,0,0,Eh,
+ADO,2024week0,qm,2,r3,135,[48],0,0,0,1,0,8,1,0,1,1,0,b,o,side,0,0,0,v,g,3,0,0,0,Fast at shooting,0.0
+EAR,2024week0,qm,2,b1,2909,[37],0,0,0,0,0,0,1,0,0,0,0,s,x,side,0,0,0,a,x,2,0,1,0,Played last 30 seconds,
+SGG,2024week0,qm,2,r1,7477,[60],0,0,0,0,0,2,1,0,0,0,0,f,p,mid,0,0,0,n,x,2,0,0,0,Not very good ,
+ATC,2024week0,qm,2,b2,9554,[13],0,0,0,0,0,0,0,0,0,0,0,s,x,mid,0,0,0,n,b,3,0,0,1,"Could not load, attempted several times",
+ADO,2024week0,qm,3,r3,2867,[12],1,0,0,0,0,1,2,0,0,2,2,b,o,mid,0,0,0,n,a,2,0,0,0,,0.0
+AV,2024week0,qm,3,b3,9431,[49],1,0,0,0,0,0,1,0,0,0,0,s,x,side,0,0,0,n,b,3,0,0,0,drops notes,
+ATC,2024week0,qm,3,b2,9119,[37],0,0,0,0,0,0,0,0,0,0,0,s,a,side,0,1,0,n,a,3,0,0,1,,
+KS,2024week0,qm,3,b3,9431,[49],1,0,0,0,0,0,1,0,0,0,0,s,x,side,0,0,0,n,b,3,0,0,0,drops notes,
+LJA,2024week0,qm,3,r2,9530,[48],0,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,n,a,2,0,0,1,Robot looked confused. Not recommended,
+EAR,2024week0,qm,3,b1,9071,[13],1,0,0,0,0,0,0,0,0,0,0,f,x,side,0,1,0,a,x,3,0,0,1,Note stuck the whole time,
+SGG,2024week0,qm,3,r1,2197,[24],1,0,0,1,0,7,1,0,0,0,0,f,x,mid,0,0,0,a,x,3,0,0,0,Decent bot ,
+EAR,2024week0,qm,4,b1,2171,[1],0,0,0,0,0,0,0,0,0,2,1,b,p,side,0,0,0,a,x,3,0,0,0,,
+ATC,2024week0,qm,4,b2,1501,[25],0,0,0,3,0,0,0,6,1,0,0,f,o,mid,0,0,0,v,e,5,0,0,0,Extremely good,
+EAR,2024week0,qm,5,b1,3176,[13],0,0,0,0,0,5,0,0,0,0,0,f,o,mid,0,0,0,a,x,3,0,0,0,,
+ZD,2024week0,qm,6,r1,9530,[60],0,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,a,x,2,0,0,0,Didn't do much just moved notes to teams zone,
+CMC,2024week1,qm,6,r2,3865,[48],0,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,n,b,1,1,0,0,This team got a note stuck and couldnt do much,0.0
+CDE,2024week0,qm,6,b2,135,[25],1,0,0,3,0,3,4,1,5,0,0,b,o,mid,0,1,0,a,a,3,0,0,0,,
+DKE,2024week0,qm,6,b1,3147,[25],0,0,0,1,0,4,0,1,0,0,0,f,p,side,0,0,0,a,b,4,0,0,0,Struggles to go under stage,0.0
+CSC,2024week0,qm,6,r2,3865,[48],0,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,n,g,3,1,0,1,Couldn't shoot,
+KS,2024week0,qm,6,b3,9554,[37],0,0,0,0,0,0,0,0,0,1,0,s,x,side,0,1,0,n,x,2,1,1,0,,
+LJA,2024week0,qm,5,r2,71,[36],0,0,0,0,0,4,3,0,0,0,0,b,x,side,0,0,0,v,x,5,0,0,0,Small but mighty. Strongly recommended,
+DKE,2024week0,qm,7,b1,7477,[37],1,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,n,x,2,1,1,0,,
+CDE,2024week0,qm,7,b2,9431,[49],1,0,0,0,0,0,1,0,0,0,0,s,p,mid,0,1,0,a,g,3,0,0,0,Penalty was a yellow card on screen,1.0
+CMC,2024week1,qm,7,r2,3940,[36],1,0,0,2,0,1,0,7,1,0,0,f,p,side,0,0,0,a,g,4,0,0,0,Very good shooter held back by teammates,0.0
+CSC,2024week0,qm,7,r2,3940,[36],1,0,0,1,0,2,2,7,1,0,0,f,p,side,0,1,1,v,x,4,0,0,0,Far shooting,
+ZD,2024week0,qm,7,r1,6956,[12],0,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,n,b,2,0,0,0,Having trouble with shooter and moves a little clunky ,
+7,2024week0,qm,7,r1,6956,[24],0,0,0,0,0,0,0,0,0,0,0,s,x,mid,0,0,0,n,x,1,0,0,1,,
+KS,2024week0,qm,7,b3,461,[13],1,0,0,0,1,1,2,0,0,3,0,f,a,side,0,1,0,a,x,5,0,0,0,,
+ZD,2024week0,qm,8,r1,2867,[60],1,0,0,0,0,3,1,0,0,0,0,f,h,mid,0,0,0,a,x,3,0,0,0,Can shoot no auton tho,
+CMC,2024week1,qm,8,r2,3176,[24],1,0,0,2,0,5,1,0,0,0,0,f,o,side,0,0,0,,g,4,0,0,0,Best team -),1.0
+KS,2024week0,qm,8,b3,1501,[25],1,0,0,4,0,0,0,5,0,3,0,f,o,mid,1,1,0,v,x,5,0,0,0,,
+CDE,2024week0,qm,8,b2,3936,[1],1,0,0,0,0,0,0,0,0,0,0,x,p,side,0,0,0,a,a,3,0,0,0,Didn't shoot much at all ,
+JP,2024week0,qm,8,r1,2867,[36],1,0,0,0,0,4,1,0,0,0,0,b,o,mid,0,0,0,v,g,4,0,0,0,Pretty good,
+DKE,2024week0,qm,8,b1,8103,[25],0,0,0,1,0,1,1,0,0,1,0,f,x,side,0,0,0,a,x,2,0,0,1,,0.0
+CSC,2024week0,qm,8,r2,3176,[24],1,0,0,2,0,5,1,0,0,0,0,f,o,side,0,1,0,v,x,3,0,0,1,,
+CMC,2024week1,qm,9,r2,1555,[48],0,0,0,0,0,4,2,0,0,0,0,f,p,side,0,0,0,a,g,3,0,0,0,Prematurely shot a note and hit the stage,0.0
+CSC,2024week0,qm,9,r2,1555,[48],0,0,0,0,0,4,3,0,0,0,0,f,a,side,0,0,0,n,x,1,0,0,0,,
+DKE,2024week0,qm,9,b1,45,[13],1,0,0,0,0,2,0,0,0,2,1,f,a,side,0,1,0,v,g,4,0,0,0,,0.0
+CDE,2024week0,qm,9,b2,9071,[49],0,0,0,0,0,0,0,0,0,0,0,b,x,side,0,1,0,n,b,2,0,0,1,They just spun Ina circle/minimal movement,
+KS,2024week0,qm,9,b3,7198,[25],1,0,0,0,0,1,1,0,0,0,0,s,p,side,0,0,0,n,x,2,0,0,0,Jolted movement,
+ZD,2024week0,qm,9,r1,829,[24],1,0,0,1,1,9,1,0,0,0,1,b,a,mid,0,0,0,v,x,5,0,0,0,Can't tell if it climbed as it was touching ground,
+JLD ,2024week0,qm,9,r3,9119,[24],1,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,n,b,2,0,0,0,,
+JP,2024week0,qm,9,r1,829,[48],0,0,0,0,1,6,2,0,0,0,0,b,x,mid,0,1,0,v,x,4,0,0,0,Good shooter,
+JLD ,2024week0,qm,10,r2,1024,[36],0,0,0,2,0,0,0,0,0,0,0,x,o,mid,0,0,0,a,x,3,0,0,1,,
+CDE,2024week0,qm,10,b2,2171,[1],0,0,0,0,0,0,0,1,0,4,0,b,p,mid,0,1,0,a,g,3,0,0,0,Didn't shoot much but went for amp alot,
+DKE,2024week0,qm,10,b1,4272,[25],1,0,0,0,1,1,0,3,3,4,1,f,x,side,0,0,0,v,a,5,0,0,0,,0.0
+CMC,2024week1,qm,10,r2,1024,[36],1,0,0,1,0,0,0,0,0,0,0,f,o,mid,0,0,0,a,g,3,0,0,0,I think a ring got stuck all match,0.0
+KS,2024week0,qm,10,b3,2909,[13],0,0,0,0,0,0,1,0,0,0,0,x,x,side,0,0,0,n,x,1,1,0,0,,
+ZD,2024week0,qm,10,r1,6721,[36],0,0,0,1,0,5,1,0,0,0,0,f,a,mid,0,0,0,a,x,4,0,0,0,Can shoot moderately ,
+CSC,2024week0,qm,10,r2,1024,[36],1,0,0,1,0,0,0,0,0,0,0,f,o,mid,0,1,0,a,a,3,0,0,1,Had trouble getting through stage,
+BIF,2024week0,qm,6,b3,9554,[49],1,0,0,0,0,0,0,0,0,1,0,s,x,side,0,0,0,a,x,2,0,0,1,Note stuck as well as not being able to pick up notes,
+BIF,2024week0,qm,7,b3,461,[13],1,0,0,1,0,1,2,0,0,3,0,f,o,side,0,0,0,v,e,4,0,0,0,Played hard defense,
+BIF,2024week0,qm,8,b3,1501,[25],1,0,0,3,0,3,0,1,0,3,0,f,o,mid,0,0,0,v,x,4,0,0,0,,
+BIF,2024week0,qm,9,b3,7198,[37],1,0,0,0,0,1,1,0,0,0,0,s,p,mid,0,0,0,n,b,2,0,0,0,,
+BIF,2024week0,qm,10,b3,2909,[13],0,0,0,0,0,0,1,0,0,0,0,x,x,side,0,0,0,n,x,2,0,0,1,Brought it back in the final 10 seconds but was too lat,
+AN,2024week0,qm,11,r1,3865,[60],1,0,0,0,0,0,0,0,0,0,0,f,x,side,0,0,0,v,e,5,0,0,0,,
+JP,2024week0,qm,11,r1,3865,[13],0,0,0,0,0,4,2,0,0,0,0,s,a,side,0,1,0,a,x,4,0,0,0,Alright I guess,
+AV,2024week0,qm,11,b3,1555,[13],0,0,0,0,0,4,2,0,0,0,0,b,x,side,0,1,0,a,x,3,0,0,0,,
+CMH,2024week0,qm,11,r3,3865,[60],1,0,0,0,0,0,0,0,0,0,0,f,p,side,0,0,0,a,g,3,0,0,0,,
+CTP,2024week0,qm,11,r2,1646,[36],0,0,0,0,0,8,0,0,0,0,0,b,o,mid,0,0,0,v,x,4,0,0,0,Over all well it did not participate in auto,
+JLD ,2024week0,qm,11,b2,2197,[13],0,0,0,5,0,0,0,0,0,0,0,f,o,mid,0,0,0,v,g,4,0,0,0,,
+BW,2024week1,qm,11,b3,1555,[1],0,0,0,0,0,4,1,0,0,0,0,x,x,mid,0,1,1,a,g,2,0,0,0,"It moves slowly, but has good defense",
+FOO,2024week0,qm,11,b2,71,[37],1,0,0,0,0,5,2,0,0,0,0,f,x,side,0,0,0,a,x,3,0,0,0,Didnt move during auton,
+CJ,2024week0,qm,11,b1,2197,[25],1,0,0,1,0,6,0,0,0,0,0,b,o,mid,0,0,0,a,x,3,0,0,0,Only attempted speaker,
+KS,2024week0,qm,11,b3,1555,[1],0,0,0,0,0,4,0,0,0,0,0,b,p,side,0,0,0,a,x,3,0,0,0,,
+JP,2024week0,qm,12,r1,8103,[24],0,0,0,0,0,4,1,0,0,0,0,f,o,side,0,1,0,a,x,3,0,0,0,Average,
+CMH,2024week0,qm,12,r3,9119,[60],0,0,0,0,0,0,0,0,0,1,1,s,p,side,0,0,0,a,x,2,0,0,0,,
+AN,2024week0,qm,12,r1,9119,[60],1,1,0,0,0,0,0,0,0,0,0,s,x,side,0,0,0,a,e,2,0,0,0,,
+AV,2024week0,qm,12,b3,3117,[25],0,0,0,0,1,4,1,0,1,0,0,x,x,side,0,0,0,a,x,3,0,0,0,immobile start,
+FOO,2024week0,qm,12,b2,3936,[49],0,0,0,0,0,0,1,0,0,0,0,f,x,side,0,0,0,n,x,2,0,0,0,Note got stuck ,
+CJ,2024week0,qm,12,b1,5484,[13],1,0,0,0,1,0,1,0,0,0,0,f,p,side,0,0,0,v,e,4,0,0,0,Could only play defense,
+KS,2024week0,qm,12,b3,3147,[25],0,0,0,0,1,4,0,0,0,0,0,f,x,side,0,1,0,a,x,3,0,0,0,immobile for first 15,
+CTP,2024week0,qm,12,r2,7477,[24],1,0,0,0,0,0,0,0,0,0,0,x,x,side,0,0,0,a,e,3,1,1,0,Died during match,
+JLD ,2024week0,qm,12,r1,157,[48],0,1,1,0,0,0,0,0,0,1,1,s,a,side,0,0,0,n,a,2,0,0,0,,

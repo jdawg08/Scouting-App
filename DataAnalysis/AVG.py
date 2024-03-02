@@ -4,12 +4,13 @@ import csv
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import math as Math
 
-myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/experimental.xlsx"
+myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/2024 lunch m12 Excel.xlsm"
 
 # Reading an excel file
 names = ['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'AmpMiss-Auto', 'SpeakerScores','SpeakerMiss', 'NearScore', 'NearMiss', 'FarAwayScore', 'FarAwayMiss', 'AmpScores_tele', 'AmpMisses_tele', 'Pickupfrom', 'finalstatus', 'chainpos', 'noteintrap', 'human?', 'madehignnote', 'driverskill', 'defenserating', 'speedrating','died','tippy','stuck_note','Comments','pen#']
-excelFile = pd.read_excel(myFile)
+excelFile = pd.read_excel(myFile,sheet_name='Match Scouting Data')
 
 # Converting excel file into CSV file
 excelFile.to_csv("ResultCsvFile.csv",index=False)
@@ -74,11 +75,11 @@ def __allStuff(team):
             totals[6] += list[16]
             totals[6] += list[17]
             totals[6] += list[31]
-        counter += 1 
-    i = 0
-    while i < len(totals):
-        totals[i] = totals[i] / counter
-        i+=1 
+            counter += 1 
+    q = 0
+    while q < len(totals):
+        totals[q] = totals[q] / counter
+        q+=1 
     
     return totals  
 
@@ -86,6 +87,11 @@ def __allStuff(team):
 
 def robot_avg(t):
     stack = __allStuff(t)
+    l = 0
+    while l < len(stack):
+        if Math.isnan(stack[l]) == True:
+            stack[l] = 0
+        l += 1
     print('Avg. amp score in auto: ' + str(stack[0]))
     print('Avg. amp misses in auto: ' + str(stack[1]))
     print('Avg. speaker scores: ' + str(stack[2]))
@@ -117,14 +123,37 @@ def standard_dev(team_num):
         sd.clear()
         place += 1
 
+def __flatten_extend(matrix):
+     flat_list = []
+     for row in matrix:
+         flat_list.extend(row)
+     return flat_list
+
+def __split_list(lst, n):
+    """Split a list into a list of lists with n items per sublist.
+
+    Args:
+        lst: The input list.
+        n: The number of items per sublist.
+
+    Returns:
+        A list of lists, each with n items.
+    """
+
+    result = []
+    for i in range(0, len(lst), n):
+        result.append(lst[i:i + n])
+    return result
+
 def position_values():
     '''
-        For the parameter, 1 is auton start position heatmap, 2 is hit/miss position heatmap
+        An auton start position heatmap
     '''
     #score_stuff = max_min_hit_miss()
     #print(score_stuff)
     labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
-    pos_vals = [[0,0,0,0,0,0] for x in range(6)]
+    pos_vals = [[0,0,0,0,0,0,0,0,0,0,0,0] for x in range(6)]
+    pos_vals = __flatten_extend(pos_vals)
     print(pos_vals)
 
     #labels for heatmap
@@ -144,8 +173,11 @@ def position_values():
     while i < len(heatData):
         variable = heatData[i]
         pos_vals[variable-1] += 1
+        print(pos_vals)
         i += 1 
     labels = np.array(labels)
+    pos_vals = __split_list(pos_vals,12)
+    pos_vals = np.array(pos_vals)
 
     formatted_text = (np.asarray(["{0}\n{1:.2f}".format(labels, pos_vals) for pos_vals, labels in zip(pos_vals.flatten(), labels.flatten())])).reshape(6, 12)
     map1 = sns.heatmap(data=pos_vals,cmap="cool",xticklabels=False,yticklabels=False,annot=formatted_text,fmt="")
