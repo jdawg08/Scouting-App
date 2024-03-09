@@ -85,7 +85,8 @@ def __allStuff(team):
 
 
 
-def robot_avg(t):
+def robot_avg():
+    t = int(input("Enter robot team number and get its average"))
     stack = __allStuff(t)
     l = 0
     while l < len(stack):
@@ -105,7 +106,7 @@ def robot_avg(t):
     print('Avg. # of penalties: ' + str(stack[10]))
 
     
-    
+@retry(ZeroDivisionError,delay=1)
 def standard_dev(team_num):
     sd = []
     labelers = 0

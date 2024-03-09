@@ -1,2 +1,2 @@
 import AVG 
-AVG.avg_score_percent()
+AVG.get_comments()
