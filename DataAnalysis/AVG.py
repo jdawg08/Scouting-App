@@ -207,7 +207,7 @@ def avg_score_percent(group):
     if s[6] > 0 or s[7] > 0:
         far_score_p = (s[6]/(s[6]+s[7])) * 100
     else:
-        far_score_p = "0"
+        nfar_score_p = "0"
 
     if s[8] > 0 or s[9] > 0:
         amp_score_tele_p = (s[8]/(s[8]+s[9])) * 100
@@ -225,8 +225,13 @@ def avg_score_percent(group):
     print("Amp score teleop percentage is " + str(amp_score_tele_p) + " %")
 
 
-
-
+def get_comments(param: str):
+    for collection in myData:
+        if type(collection[29]) == float:
+            collection[29] = " "
+        if collection[29].find(param) != -1:
+            print("Match " + str(collection[2]) + ", Robot " + str(collection[3]) + ", Team #: " + str(collection[4]) + ", " + str(collection[0]) + " said " + "'" + collection[29] + "'.")
+        
     
 
     
