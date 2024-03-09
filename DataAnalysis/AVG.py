@@ -5,6 +5,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import math as Math
+from retry import retry
 
 myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/2024Mish_Match56.xlsx"
 
@@ -58,7 +59,6 @@ def get_match(num):
             print('___________________________________________________')
             print(' ')
             
-
 def __allStuff(team):
     totals = [0,0,0,0,0,0,0,0,0,0,0]
     counter = 0
@@ -75,7 +75,7 @@ def __allStuff(team):
             totals[8] += list[15]
             totals[9] += list[16]
             totals[10] += list[30]
-    print(counter)
+            counter += 1
     q = 0
     while q < len(totals):
         totals[q] = totals[q] / counter
@@ -184,8 +184,9 @@ def position_values():
     plt.show()
 
 
-
-def avg_score_percent(group):
+@retry(ZeroDivisionError,delay=1)
+def avg_score_percent():
+    group = int(input('Enter a team number and get score percentages'))
 
     s = __allStuff(group)
     
@@ -207,7 +208,7 @@ def avg_score_percent(group):
     if s[6] > 0 or s[7] > 0:
         far_score_p = (s[6]/(s[6]+s[7])) * 100
     else:
-        nfar_score_p = "0"
+        far_score_p = "0"
 
     if s[8] > 0 or s[9] > 0:
         amp_score_tele_p = (s[8]/(s[8]+s[9])) * 100
@@ -225,7 +226,8 @@ def avg_score_percent(group):
     print("Amp score teleop percentage is " + str(amp_score_tele_p) + " %")
 
 
-def get_comments(param: str):
+def get_comments():
+    param = input("Enter a desired phrase")
     for collection in myData:
         if type(collection[29]) == float:
             collection[29] = " "
