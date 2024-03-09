@@ -85,8 +85,8 @@ def __allStuff(team):
 
 
 
-def robot_avg():
-    t = int(input("Enter robot team number and get its average"))
+def robot_avg(t):
+        
     stack = __allStuff(t)
     l = 0
     while l < len(stack):
@@ -123,6 +123,7 @@ def standard_dev(team_num):
         #print(std)
         sd.clear()
         place += 1
+     
 
 def __flatten_extend(matrix):
      flat_list = []
@@ -186,8 +187,7 @@ def position_values():
 
 
 @retry(ZeroDivisionError,delay=1)
-def avg_score_percent():
-    group = int(input('Enter a team number and get score percentages'))
+def avg_score_percent(group):
 
     s = __allStuff(group)
     
@@ -217,7 +217,6 @@ def avg_score_percent():
         amp_score_tele_p = "0"
 
     
-    
 
     print('Score percentages:')
     print("Amp score auton percentage is " + str(amp_score_auto_p) + " %")
@@ -227,15 +226,13 @@ def avg_score_percent():
     print("Amp score teleop percentage is " + str(amp_score_tele_p) + " %")
 
 
-def get_comments():
-    param = input("Enter a desired phrase")
+def get_comments(param):
     for collection in myData:
         if type(collection[29]) == float:
             collection[29] = " "
         if collection[29].find(param) != -1:
             print("Match " + str(collection[2]) + ", Robot " + str(collection[3]) + ", Team #: " + str(collection[4]) + ", " + str(collection[0]) + " said " + "'" + collection[29] + "'.")
-        
-    
+
 
     
     
