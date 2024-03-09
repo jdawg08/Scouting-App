@@ -6,11 +6,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import math as Math
 
-myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/2024 lunch m12 Excel.xlsm"
+myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/2024Mish_Match56.xlsx"
 
 # Reading an excel file
 names = ['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'AmpMiss-Auto', 'SpeakerScores','SpeakerMiss', 'NearScore', 'NearMiss', 'FarAwayScore', 'FarAwayMiss', 'AmpScores_tele', 'AmpMisses_tele', 'Pickupfrom', 'finalstatus', 'chainpos', 'noteintrap', 'human?', 'madehignnote', 'driverskill', 'defenserating', 'speedrating','died','tippy','stuck_note','Comments','pen#']
-excelFile = pd.read_excel(myFile,sheet_name='Match Scouting Data')
+excelFile = pd.read_excel(myFile)
 
 # Converting excel file into CSV file
 excelFile.to_csv("ResultCsvFile.csv",index=False)
@@ -27,34 +27,34 @@ myData = dataframeObject.values.tolist()
 def get_match(num):
     for list in myData:
         if list[3] == num:
-            print('Name: ' + str(list[0]) + ', ' + str(list[1]) + ', Match ' + str(list[3]) + ' (' + str(list[2]) + ')' + ', Robot: ' + str(list[4]) + ', Team ' + str(list[5]))
+            print('Name: ' + str(list[0]) + ', ' + str(list[1]) + ', Match ' + str(list[2]) + ', Robot: ' + str(list[3]) + ', Team ' + str(list[4]))
             print('Info -')
-            print('Start Position: ' + str(list[6]))
-            print('Left Start zone?: ' + str(list[7]))
-            print('Amp Score - Auto: ' + str(list[8]))
-            print('Amp Misses - Auto: ' + str(list[9]))
-            print('Speaker Scores: ' + str(list[10]))
-            print('Speaker Misses: ' + str(list[11]))
-            print('Near Scores: ' + str(list[12]))
-            print('Near Misses: ' + str(list[13]))
-            print('Far Away Scores: ' + str(list[14]))
-            print('Far Away Misses: ' + str(list[15]))
-            print('Amp Scoress - teleop: ' + str(list[16]))
-            print('Amp misses - teleop: ' + str(list[17]))
-            print('Pickup from: ' + str(list[18]))
-            print('Final Status: ' + str(list[19]))
-            print('Chain Position: ' + str(list[20]))
-            print('Note in trap: ' + str(list[21]))
-            print('Human?: ' + str(list[22]))
-            print('Made High Note?: ' + str(list[23]))
-            print('Driver Skill: ' + str(list[24]))
-            print('Defense Rating: ' + str(list[25]))
-            print('Speed Rating: ' + str(list[26]))
-            print('Died/Immobilized: ' + str(list[27]))
-            print('Tippy?: ' + str(list[28]))
-            print('Stuck note: ' + str(list[29]))
-            print('Comments: ' + str(list[30]))
-            print('Penalty #: ' + str(list[31]))
+            print('Start Position: ' + str(list[5]))
+            print('Left Start zone?: ' + str(list[6]))
+            print('Amp Score - Auto: ' + str(list[7]))
+            print('Amp Misses - Auto: ' + str(list[8]))
+            print('Speaker Scores: ' + str(list[9]))
+            print('Speaker Misses: ' + str(list[10]))
+            print('Near Scores: ' + str(list[11]))
+            print('Near Misses: ' + str(list[12]))
+            print('Far Away Scores: ' + str(list[13]))
+            print('Far Away Misses: ' + str(list[14]))
+            print('Amp Scoress - teleop: ' + str(list[15]))
+            print('Amp misses - teleop: ' + str(list[16]))
+            print('Pickup from: ' + str(list[17]))
+            print('Final Status: ' + str(list[18]))
+            print('Chain Position: ' + str(list[19]))
+            print('Note in trap: ' + str(list[20]))
+            print('Human?: ' + str(list[21]))
+            print('Made High Note?: ' + str(list[22]))
+            print('Driver Skill: ' + str(list[23]))
+            print('Defense Rating: ' + str(list[24]))
+            print('Speed Rating: ' + str(list[25]))
+            print('Died/Immobilized: ' + str(list[26]))
+            print('Tippy?: ' + str(list[27]))
+            print('Stuck note: ' + str(list[28]))
+            print('Comments: ' + str(list[29]))
+            print('Penalty #: ' + str(list[30]))
             print('___________________________________________________')
             print(' ')
             
@@ -63,19 +63,19 @@ def __allStuff(team):
     totals = [0,0,0,0,0,0,0,0,0,0,0]
     counter = 0
     for list in myData:
-        if list[5] == team:
-            totals[0] += list[8]
-            totals[1] += list[9]
-            totals[2] += list[10]
-            totals[3] += list[11]
-            totals[4] += list[12]
-            totals[5] += list[13]
-            totals[6] += list[14]
-            totals[6] += list[15]
-            totals[6] += list[16]
-            totals[6] += list[17]
-            totals[6] += list[31]
-            counter += 1 
+        if list[4] == team:
+            totals[0] += list[7]
+            totals[1] += list[8]
+            totals[2] += list[9]
+            totals[3] += list[10]
+            totals[4] += list[11]
+            totals[5] += list[12]
+            totals[6] += list[13]
+            totals[7] += list[14]
+            totals[8] += list[15]
+            totals[9] += list[16]
+            totals[10] += list[30]
+    print(counter)
     q = 0
     while q < len(totals):
         totals[q] = totals[q] / counter
@@ -109,11 +109,11 @@ def robot_avg(t):
 def standard_dev(team_num):
     sd = []
     labelers = 0
-    holders = [8,9,10,11,12,13,14,15,16,17,31]
+    holders = [7,8,9,10,11,12,13,14,15,16,30]
     place = 0
     while place < len(holders):
         for list in myData:
-            if list[5] == team_num:
+            if list[4] == team_num:
                 tempor = holders[place]
                 sd.append(list[tempor])
         std = np.std(sd)
@@ -162,7 +162,7 @@ def position_values():
     i=0
     #type 1 is auto starting positions
     for l in myData:
-        temp.append(l[6])
+        temp.append(l[5])
     for item in temp:
         item = int(item[1:len(item)-1])
         heatData.append(item)
@@ -182,6 +182,48 @@ def position_values():
     formatted_text = (np.asarray(["{0}\n{1:.2f}".format(labels, pos_vals) for pos_vals, labels in zip(pos_vals.flatten(), labels.flatten())])).reshape(6, 12)
     map1 = sns.heatmap(data=pos_vals,cmap="cool",xticklabels=False,yticklabels=False,annot=formatted_text,fmt="")
     plt.show()
+
+
+
+def avg_score_percent(group):
+
+    s = __allStuff(group)
+    
+    if s[0] > 0 or s[1] > 0:
+        amp_score_auto_p = (s[0]/(s[0]+s[1])) * 100
+    else:
+        amp_score_auto_p = "0"
+
+    if s[2] > 0 or s[3] > 0:
+        speak_score_auto_p = (s[2]/(s[2]+s[3])) * 100
+    else:
+        speak_score_auto_p = "0"
+
+    if s[4] > 0 or s[5] > 0:
+        near_score_p = (s[4]/(s[4]+s[5])) * 100
+    else:
+        near_score_p = "0"
+
+    if s[6] > 0 or s[7] > 0:
+        far_score_p = (s[6]/(s[6]+s[7])) * 100
+    else:
+        far_score_p = "0"
+
+    if s[8] > 0 or s[9] > 0:
+        amp_score_tele_p = (s[8]/(s[8]+s[9])) * 100
+    else:
+        amp_score_tele_p = "0"
+
+    
+    
+
+    print('Score percentages:')
+    print("Amp score auton percentage is " + str(amp_score_auto_p) + " %")
+    print("Speaker score auton percentage is " + str(speak_score_auto_p) + " %")
+    print("Near scores percentage is " + str(near_score_p) + " %")
+    print("Far score percentage is " + str(far_score_p) + " %")
+    print("Amp score teleop percentage is " + str(amp_score_tele_p) + " %")
+
 
 
 

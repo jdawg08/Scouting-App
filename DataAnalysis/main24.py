@@ -1,2 +1,2 @@
 import AVG 
-AVG.position_values()
+AVG.standard_dev(135)
