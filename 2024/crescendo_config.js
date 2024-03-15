@@ -12,9 +12,10 @@ var config_data = `
       "maxSize": 5,
       "required": "true"
     },
-    { "name": "Path Drawer",
-      "code": "pdr",
-      "type": "bool"
+    { "name": "Path Drawer?<br>",
+      "code": "Pdr",
+      "type": "bool",
+      "required": "true"
     },
     { "name": "Event",
       "code": "e",
@@ -57,7 +58,8 @@ var config_data = `
       "code": "t",
       "type": "team",
       "min": 1,
-      "max": 99999
+      "max": 99999,
+      "required": "true"
     },
     { "name": "Auto Start Position",
       "code": "as",
@@ -68,63 +70,102 @@ var config_data = `
       "shape": "circle 5 black red true"
     }
   ],
+
   "auton": [
-    { "name": "Leave Starting Zone",
-      "code": "al",
+    { "name": "Amp made?",
+      "code": "ammd",
       "type": "bool"
     },
-    { "name": "Amp Scores",
-      "code": "aas",
-      "type": "counter"
-    },
-    { "name": "Amp Misses",
-      "code": "aam",
-      "type": "counter"
-    },
     { "name": "Speaker Scores",
-      "code": "ass",
+      "code": "spsca",
       "type": "counter"
     },
     { "name": "Speaker Misses",
-      "code": "asm",
+      "code": "spsm",
       "type": "counter"
     }
   ],
+
   "teleop": [
-    { "name": "Near Scores",
-      "code": "tas",
+    { "name": "Actions after the bell",
+      "code": "aatb",
+      "type": "radio",
+      "choices": {
+        "mdn": "Pick up a missed/dropped note<br>",
+        "puzn": "Pick up zone placed notes<br>"
+      },
+      "defaultValue": "mdn",
+      "required": "true"
+    },
+    { "name": "Pick up midline placed note",
+      "code": "mpn",
+      "type": "radio",
+      "choices": {
+        "o": "Outside<br>",
+        "i": "Inside<br>",
+        "m": "Middle"
+      },
+      "defaultValue": "o",
+      "required": "true"
+    },
+    { "name": "Speaker Scores",
+      "code": "speksc",
       "type": "counter"
     },
-    { "name": "Near Misses",
-      "code": "tss",
+    { "name": "Score in the speaker?",
+      "code": "sits",
+      "type": "radio",
+      "choices": {
+        "ne": "Near<br>",
+        "f": "Far<br>",
+        "b": "Both<br>",
+        "n": "None<br>"
+      }
+    },
+    { "name": "Only shoots w/ bumpers touching the speaker?",
+      "code": "bts",
+      "type": "bool"
+    },
+    { "name": "Note shuttler?",
+      "code": "ns",
+      "type": "bool"
+    },
+    { "name": "Notes shuttled",
+      "code": "nosh",
       "type": "counter"
     },
-    { "name": "Far Away Scores",
-      "code": "tss",
-      "type": "counter"
+    { "name": "Defensive Player?",
+      "code": "dp",
+      "type": "bool"
     },
-    { "name": "Far Away Misses",
-      "code": "tss",
-      "type": "counter"
+    { "name": "Defense locations",
+      "code": "sits",
+      "type": "radio",
+      "choices": {
+        "sb": "Shot Blocker<br>",
+        "sob": "Source Blocker<br>",
+        "ao": "All over<br>",
+        "no": "None<br>"
+      }
     },
     { "name": "Amp Scores",
-      "code": "tss",
+      "code": "amps",
       "type": "counter"
     },
     { "name": "Amp Misses",
-      "code": "tss",
+      "code": "ampm",
       "type": "counter"
     },
-    { "name": "Pickup From",
-      "code": "tpu",
-      "type": "radio",
-      "choices": {
-        "s": "Source<br>",
-        "f": "Floor<br>",
-        "b": "Both<br>",
-        "x": "Not Attempted"
-      },
-      "defaultValue": "x"
+    { "name": "# of Penalties",
+      "code": "pe",
+      "type": "pens",
+      "size": 3,
+      "maxSize": 5,
+      "required": "false"
+    },
+    { "name": "Can go through stage?",
+      "code": "ths",
+      "type": "bool"
     },
     { "name": "Paths - For Certain People Only!!! Otherwise ignore",
       "code": "ts",
@@ -223,13 +264,6 @@ var config_data = `
       "type": "text",
       "size": 15,
       "maxSize": 55
-    },
-    { "name": "# of Penalties",
-      "code": "pe",
-      "type": "pens",
-      "size": 3,
-      "maxSize": 5,
-      "required": "false"
     }
   ]
 }`;

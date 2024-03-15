@@ -13,8 +13,8 @@ var slide = 0;
 var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
-//var hitOrMiss = [];
-//var hitOrMissCoords = [];
+var pathCoords = [];
+
 
 // Options
 var options = {
@@ -759,7 +759,7 @@ function addElement(table, idx, data) {
     (data.type == 'pass_fail')
   ) {
     idx = addCheckbox(table, idx, name, data);
-  } else if (data.type == 'drawable_image') {
+  } else if ((data.type == 'drawable_image')) {
     idx = addDrawable(table, idx, name, data);
   } else if (data.type == 'counter') {
     idx = addCounter(table, idx, name, data);
