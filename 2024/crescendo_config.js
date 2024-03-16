@@ -1,6 +1,6 @@
 var config_data = `
 {
-  "dataFormat": "tsv",
+  "dataFormat": "kvs",
   "title": "Scouting PASS 2024",
   "page_title": "Crescendo",
   "checkboxAs": "10",
@@ -61,14 +61,19 @@ var config_data = `
       "max": 99999,
       "required": "true"
     },
-    { "name": "Auto Start Position",
-      "code": "as",
-      "type": "clickable_image",
-      "filename": "2024/field_image.png",
-      "clickRestriction": "one",
-      "allowableResponses": "1 12 13 24 25 36 37 48 49 60 61 72",
-      "shape": "circle 5 black red true"
-    }
+    { "name": "Starting Positions",
+    "code": "stpos",
+    "type": "radio",
+    "choices": {
+      "bas": "Between amp & speaker<br>",
+      "ifsas": "In front of speaker amp side<br>",
+      "insm": "In front of speaker middle<br>",
+      "insas": "In front of speaker source side<br>",
+      "bsss": "Between speaker and source<br>"
+    },
+    "defaultValue": "bas",
+    "required": "true"
+  }
   ],
 
   "auton": [
@@ -83,33 +88,30 @@ var config_data = `
     { "name": "Speaker Misses",
       "code": "spsm",
       "type": "counter"
+    },
+    {
+      "name": "Actions after first shot",
+      "code": "aafs",
+      "type": "radio",
+      "choices": {
+        "afsna": "First shot not attempted<br>",
+        "punz": "Pick up note in wing<br>",
+        "puncl": "Pick up note - center line<br>",
+        "sz": "Only leave starting zone<br>",
+        "o": "Other<br>",
+        "no": "Nothing<br>"
+      },
+      "defaultValue": "no"
     }
   ],
 
   "teleop": [
-    { "name": "Actions after the bell",
-      "code": "aatb",
-      "type": "radio",
-      "choices": {
-        "mdn": "Pick up a missed/dropped note<br>",
-        "puzn": "Pick up zone placed notes<br>"
-      },
-      "defaultValue": "mdn",
-      "required": "true"
-    },
-    { "name": "Pick up midline placed note",
-      "code": "mpn",
-      "type": "radio",
-      "choices": {
-        "o": "Outside<br>",
-        "i": "Inside<br>",
-        "m": "Middle"
-      },
-      "defaultValue": "o",
-      "required": "true"
-    },
     { "name": "Speaker Scores",
       "code": "speksc",
+      "type": "counter"
+    },
+    { "name": "Speaker Misses",
+      "code": "spekm",
       "type": "counter"
     },
     { "name": "Score in the speaker?",
@@ -120,17 +122,22 @@ var config_data = `
         "f": "Far<br>",
         "b": "Both<br>",
         "n": "None<br>"
-      }
+      },
+      "defaultValue":"n"
     },
     { "name": "Only shoots w/ bumpers touching the speaker?",
       "code": "bts",
       "type": "bool"
     },
-    { "name": "Note shuttler?",
-      "code": "ns",
-      "type": "bool"
+    { "name": "Amp Scores",
+      "code": "amps",
+      "type": "counter"
     },
-    { "name": "Notes shuttled",
+    { "name": "Amp Misses",
+      "code": "ampm",
+      "type": "counter"
+    },
+    { "name": "Notes shuttled for alliance partners",
       "code": "nosh",
       "type": "counter"
     },
@@ -142,30 +149,28 @@ var config_data = `
       "code": "sits",
       "type": "radio",
       "choices": {
-        "sb": "Shot Blocker<br>",
-        "sob": "Source Blocker<br>",
-        "ao": "All over<br>",
-        "no": "None<br>"
-      }
-    },
-    { "name": "Amp Scores",
-      "code": "amps",
-      "type": "counter"
-    },
-    { "name": "Amp Misses",
-      "code": "ampm",
-      "type": "counter"
+        "sbs": "Shot block at speaker<br>",
+        "nos": "Path block near source<br>",
+        "ao": "All Over<br>",
+        "oth": "Other",
+        "n":"None"
+      },
+      "defaultValue":"n"
     },
     { "name": "# of Penalties",
       "code": "pe",
-      "type": "pens",
-      "size": 3,
-      "maxSize": 5,
-      "required": "false"
+      "type": "counter"
     },
-    { "name": "Can go through stage?",
+    { "name": "Travel through stage",
       "code": "ths",
-      "type": "bool"
+      "type": "radio",
+      "choices": {
+        "rd": "Red<br>",
+        "bl": "Blue<br>",
+        "bh": "Both<br>",
+        "n": "None<br>"
+      },
+      "defaultValue": "n"
     },
     { "name": "Paths - For Certain People Only!!! Otherwise ignore",
       "code": "ts",
@@ -178,11 +183,14 @@ var config_data = `
     }
   ],
   "endgame": [
-    { "name": "Final Status",
-      "code": "fs",
+    { "name": "Parked?",
+    "code": "p",
+    "type": "bool"
+  },
+    { "name": "Onstage Status",
+      "code": "os",
       "type":"radio",
       "choices": {
-        "p": "Parked<br>",
         "o": "Onstage<br>",
         "h": "Harmony<br>",
         "a": "Attempted but failed<br>",
@@ -195,67 +203,21 @@ var config_data = `
       "type":"radio",
       "choices": {
         "mid": "Middle<br>",
-        "side": "Side"
+        "side": "Side<br>"
       },
       "defaultValue": "side"
     },
     { "name": "Note in Trap",
       "code": "nit",
       "type": "bool"
-    },
-    { "name": "High note human player?",
-      "code": "hp",
-      "type": "bool"
-    },
-    { "name": "Made High Note?",
-      "code": "madesp",
-      "type": "bool"
     }
   ],
   "postmatch": [
-    { "name": "Driver Skill",
-      "code": "ds",
-      "type": "radio",
-      "choices": {
-        "n": "Not Effective<br>",
-        "a": "Average<br>",
-        "v": "Very Effective<br>"
-      },
-      "defaultValue": "x"
-    },
-    { "name": "Defense Rating",
-      "code": "dr",
-      "type": "radio",
-      "choices": {
-        "b": "Below Average<br>",
-        "a": "Average<br>",
-        "g": "Good<br>",
-        "e": "Excellent<br>",
-        "x": "Did not play defense"
-      },
-      "defaultValue": "x"
-    },
-    { "name": "Speed Rating",
-      "code": "sr",
-      "type": "radio",
-      "choices": {
-        "1": "1 (slow)<br>",
-        "2": "2<br>",
-        "3": "3<br>",
-        "4": "4<br>",
-        "5": "5 (fast)"
-      },
-      "defaultValue":"3"
-    },
     { "name": "Died/Immobilized",
       "code": "die",
       "type": "bool"
     },
-    { "name": "Tippy<br>(almost tipped over)",
-      "code": "tip",
-      "type": "bool"
-    },
-    { "name": "Note stuck in robot? (>2)",
+    { "name": "Note stuck in robot?",
       "code": "dn",
       "type": "bool"
     },
@@ -264,6 +226,15 @@ var config_data = `
       "type": "text",
       "size": 15,
       "maxSize": 55
+    },
+    { "name": "Tank Drive",
+      "code": "td",
+      "type": "radio",
+      "choices": {
+        "swv": "Swerve<br>",
+        "oth": "Other<br>"
+      },
+      "defaultValue": "swv"
     }
   ]
 }`;

@@ -25,7 +25,7 @@ var options = {
 
 // Must be filled in: e=event, m=match#, l=level(q,qf,sf,f), t=team#, r=robot(r1,r2,b1..), s=scouter
 //var requiredFields = ["e", "m", "l", "t", "r", "s", "as"];
-var requiredFields = ["e", "m", "l", "r", "s", "as"];
+var requiredFields = ["e", "m", "l", "r", "s", "stpos"];
 
 function addTimer(table, idx, name, data) {
   var row = table.insertRow(idx);
@@ -206,7 +206,6 @@ function addDrawable(table, idx, name, data) {
     ctx.stroke();
     coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save starting point
   });
-
   canvas.addEventListener('mousemove', function(e) {
     if (drawing) {
       ctx.lineTo(e.offsetX, e.offsetY);
@@ -215,14 +214,50 @@ function addDrawable(table, idx, name, data) {
       console.log(coordinates)
     }
   });
+  canvas.addEventListener('mouseup', endDrawing);
 
-  window.addEventListener('mouseup', function() {
+  canvas.addEventListener('touchstart', function(e) {
+    drawing = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Redraw the image
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+    ctx.strokeStyle = '#' + Math.floor(Math.random()*16777215).toString(16);
+    ctx.stroke();
+    coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save starting point
+  });
+  canvas.addEventListener('touchmove', function(e) {
     if (drawing) {
-      drawing = false;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save current point
+      console.log(coordinates)
     }
   });
+  canvas.addEventListener('touchend', endDrawing);
 
-  // Optional: Add a clear button or other drawing tools as needed
+  function startDrawing(e) {
+    drawing = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Redraw the image
+    var touch = e.touches[0];
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+    coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+  }
+
+  function draw(e) {
+    if (drawing) {
+      var touch = e.touches[0];
+      ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+      ctx.stroke();
+      coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+    }
+  }
+
+  function endDrawing() {
+    drawing = false;
+  }
 
   idx += 1;
   return idx;
@@ -751,9 +786,6 @@ function addElement(table, idx, data) {
     (data.type == 'number')
   ) {
     idx = addNumber(table, idx, name, data);
-  } else if ((data.type == 'field_image') ||
-    (data.type == 'clickable_image')) {
-    idx = addClickableImage(table, idx, name, data);
   } else if ((data.type == 'bool') ||
     (data.type == 'checkbox') ||
     (data.type == 'pass_fail')
@@ -894,8 +926,8 @@ function validateData() {
   for (rf of requiredFields) {
     var thisRF = document.forms.scoutingForm[rf];
     if (thisRF.value == "[]" || thisRF.value.length == 0) {
-      if (rf == "as") {
-        rftitle = "Auto Start Position"
+      if (rf == "stpos") {
+        rftitle = "Starting Position"
       } else {
         thisInputEl = thisRF instanceof RadioNodeList ? thisRF[0] : thisRF;
         rftitle = thisInputEl.parentElement.parentElement.children[0].innerHTML.replace("&nbsp;","");
