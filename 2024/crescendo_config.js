@@ -203,7 +203,8 @@ var config_data = `
       "type":"radio",
       "choices": {
         "mid": "Middle<br>",
-        "side": "Side<br>"
+        "side": "Side<br>",
+        "n": "None<br>"
       },
       "defaultValue": "side"
     },
