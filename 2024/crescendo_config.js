@@ -146,7 +146,7 @@ var config_data = `
       "type": "bool"
     },
     { "name": "Defense locations",
-      "code": "sits",
+      "code": "dloc",
       "type": "radio",
       "choices": {
         "sbs": "Shot block at speaker<br>",
