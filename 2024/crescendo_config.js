@@ -12,6 +12,11 @@ var config_data = `
       "maxSize": 5,
       "required": "true"
     },
+    { "name": "Path Drawer?<br>",
+      "code": "Pdr",
+      "type": "bool",
+      "required": "true"
+    },
     { "name": "Event",
       "code": "e",
       "type": "event",
@@ -53,82 +58,139 @@ var config_data = `
       "code": "t",
       "type": "team",
       "min": 1,
-      "max": 99999
+      "max": 99999,
+      "required": "true"
     },
-    { "name": "Auto Start Position",
-      "code": "as",
-      "type": "clickable_image",
-      "filename": "2024/field_image.png",
-      "clickRestriction": "one",
-      "allowableResponses": "1 12 13 24 25 36 37 48 49 60 61 72",
-      "shape": "circle 5 black red true"
-    }
+    { "name": "Starting Positions",
+    "code": "stpos",
+    "type": "radio",
+    "choices": {
+      "bas": "Between amp & speaker<br>",
+      "ifsas": "In front of speaker amp side<br>",
+      "insm": "In front of speaker middle<br>",
+      "insas": "In front of speaker source side<br>",
+      "bsss": "Between speaker and source<br>"
+    },
+    "defaultValue": "bas",
+    "required": "true"
+  }
   ],
+
   "auton": [
-    { "name": "Leave Starting Zone",
-      "code": "al",
+    { "name": "Amp made?",
+      "code": "ammd",
       "type": "bool"
     },
-    { "name": "Amp Scores",
-      "code": "aas",
-      "type": "counter"
-    },
-    { "name": "Amp Misses",
-      "code": "aam",
-      "type": "counter"
-    },
     { "name": "Speaker Scores",
-      "code": "asc",
+      "code": "spsca",
       "type": "counter"
     },
     { "name": "Speaker Misses",
-      "code": "asm",
+      "code": "spsm",
       "type": "counter"
+    },
+    {
+      "name": "Actions after first shot",
+      "code": "aafs",
+      "type": "radio",
+      "choices": {
+        "afsna": "First shot not attempted<br>",
+        "punz": "Pick up note in wing<br>",
+        "puncl": "Pick up note - center line<br>",
+        "sz": "Only leave starting zone<br>",
+        "o": "Other<br>",
+        "no": "Nothing<br>"
+      },
+      "defaultValue": "no"
     }
   ],
+
   "teleop": [
-    { "name": "Near Scores",
-      "code": "tsc",
+    { "name": "Speaker Scores",
+      "code": "speksc",
       "type": "counter"
     },
-    { "name": "Near Misses",
-      "code": "tsm",
+    { "name": "Speaker Misses",
+      "code": "spekm",
       "type": "counter"
     },
-    { "name": "Far Away Scores",
-      "code": "tsfc",
-      "type": "counter"
+    { "name": "Score in the speaker?",
+      "code": "sits",
+      "type": "radio",
+      "choices": {
+        "ne": "Near<br>",
+        "f": "Far<br>",
+        "b": "Both<br>",
+        "n": "None<br>"
+      },
+      "defaultValue":"n"
     },
-    { "name": "Far Away Misses",
-      "code": "tsfm",
-      "type": "counter"
+    { "name": "Only shoots w/ bumpers touching the speaker?",
+      "code": "bts",
+      "type": "bool"
     },
     { "name": "Amp Scores",
-      "code": "tas",
+      "code": "amps",
       "type": "counter"
     },
     { "name": "Amp Misses",
-      "code": "tam",
+      "code": "ampm",
       "type": "counter"
     },
-    { "name": "Pickup From",
-      "code": "pt",
+    { "name": "Notes shuttled for alliance partners",
+      "code": "nosh",
+      "type": "counter"
+    },
+    { "name": "Defensive Player?",
+      "code": "dp",
+      "type": "bool"
+    },
+    { "name": "Defense locations",
+      "code": "sits",
       "type": "radio",
       "choices": {
-        "s": "Source<br>",
-        "f": "Floor<br>",
-        "b": "Both<br>",
-        "x": "Not Attempted"
+        "sbs": "Shot block at speaker<br>",
+        "nos": "Path block near source<br>",
+        "ao": "All Over<br>",
+        "oth": "Other",
+        "n":"None"
       },
-      "defaultValue": "x"
+      "defaultValue":"n"
+    },
+    { "name": "# of Penalties",
+      "code": "pe",
+      "type": "counter"
+    },
+    { "name": "Travel through stage",
+      "code": "ths",
+      "type": "radio",
+      "choices": {
+        "rd": "Red<br>",
+        "bl": "Blue<br>",
+        "bh": "Both<br>",
+        "n": "None<br>"
+      },
+      "defaultValue": "n"
+    },
+    { "name": "Paths - For Certain People Only!!! Otherwise ignore",
+      "code": "ts",
+      "type": "drawable_image",
+      "filename": "2024/field_image.png",
+      "clickRestriction": "zero",
+      "allowableResponses": "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72",
+      "shape": "circle 5 black red true",
+      "path":true
     }
   ],
   "endgame": [
-    { "name": "Final Status",
-      "code": "fs",
+    { "name": "Parked?",
+    "code": "p",
+    "type": "bool"
+  },
+    { "name": "Onstage Status",
+      "code": "os",
       "type":"radio",
       "choices": {
-        "p": "Parked<br>",
         "o": "Onstage<br>",
         "h": "Harmony<br>",
         "a": "Attempted but failed<br>",
@@ -141,67 +203,21 @@ var config_data = `
       "type":"radio",
       "choices": {
         "mid": "Middle<br>",
-        "side": "Side"
+        "side": "Side<br>"
       },
       "defaultValue": "side"
     },
     { "name": "Note in Trap",
       "code": "nit",
       "type": "bool"
-    },
-    { "name": "High note human player?",
-      "code": "hp",
-      "type": "bool"
-    },
-    { "name": "Made High Note?",
-      "code": "madehp",
-      "type": "bool"
     }
   ],
   "postmatch": [
-    { "name": "Driver Skill",
-      "code": "ds",
-      "type": "radio",
-      "choices": {
-        "n": "Not Effective<br>",
-        "a": "Average<br>",
-        "v": "Very Effective<br>"
-      },
-      "defaultValue": "x"
-    },
-    { "name": "Defense Rating",
-      "code": "dr",
-      "type": "radio",
-      "choices": {
-        "b": "Below Average<br>",
-        "a": "Average<br>",
-        "g": "Good<br>",
-        "e": "Excellent<br>",
-        "x": "Did not play defense"
-      },
-      "defaultValue": "x"
-    },
-    { "name": "Speed Rating",
-      "code": "sr",
-      "type": "radio",
-      "choices": {
-        "1": "1 (slow)<br>",
-        "2": "2<br>",
-        "3": "3<br>",
-        "4": "4<br>",
-        "5": "5 (fast)"
-      },
-      "defaultValue":"3"
-    },
     { "name": "Died/Immobilized",
       "code": "die",
       "type": "bool"
     },
-    { "name": "Tippy<br>(almost tipped over)",
-      "code": "tip",
-      "type": "bool"
-    },
-    { "name": "Note stuck in robot? (>2)",
+    { "name": "Note stuck in robot?",
       "code": "dn",
       "type": "bool"
     },
@@ -211,12 +227,14 @@ var config_data = `
       "size": 15,
       "maxSize": 55
     },
-    { "name": "# of Penalties",
-      "code": "pe",
-      "type": "pens",
-      "size": 3,
-      "maxSize": 5,
-      "required": "false"
+    { "name": "Tank Drive",
+      "code": "td",
+      "type": "radio",
+      "choices": {
+        "swv": "Swerve<br>",
+        "oth": "Other<br>"
+      },
+      "defaultValue": "swv"
     }
   ]
 }`;

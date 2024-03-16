@@ -13,8 +13,8 @@ var slide = 0;
 var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
-//var hitOrMiss = [];
-//var hitOrMissCoords = [];
+var pathCoords = [];
+
 
 // Options
 var options = {
@@ -25,7 +25,7 @@ var options = {
 
 // Must be filled in: e=event, m=match#, l=level(q,qf,sf,f), t=team#, r=robot(r1,r2,b1..), s=scouter
 //var requiredFields = ["e", "m", "l", "t", "r", "s", "as"];
-var requiredFields = ["e", "m", "l", "r", "s", "as"];
+var requiredFields = ["e", "m", "l", "r", "s", "stpos"];
 
 function addTimer(table, idx, name, data) {
   var row = table.insertRow(idx);
@@ -149,6 +149,120 @@ function addTimer(table, idx, name, data) {
 
   return idx + 1;
 }
+
+function addDrawable(table, idx, name, data) {
+  var row = table.insertRow(idx);
+  var cell = row.insertCell(0);
+  cell.setAttribute("colspan", 2);
+  cell.setAttribute("style", "text-align: center;");
+  cell.classList.add("title");
+
+  if (!data.hasOwnProperty('code')) {
+    cell.innerHTML = `Error: No code specified for ${name}`;
+    return idx + 1;
+  }
+
+  cell.innerHTML = name;
+  if (data.hasOwnProperty('tooltip')) {
+    cell.setAttribute("title", data.tooltip);
+  }
+
+  idx += 1;
+  row = table.insertRow(idx);
+  cell = row.insertCell(0);
+  cell.setAttribute("colspan", 2);
+  cell.setAttribute("style", "text-align: center;");
+
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute("id", "drawable_" + data.code);
+  canvas.setAttribute("class", "drawable-canvas");
+  canvas.innerHTML = "Your browser does not support canvas.";
+  cell.appendChild(canvas);
+
+  // Set canvas size
+  canvas.width = 500; // Example width, adjust as needed
+  canvas.height = 300; // Example height, adjust as needed
+
+  var img = new Image();
+  img.onload = function() {
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  };
+  img.src = data.filename; // Set the image source
+
+  // Initialize drawing context
+  var ctx = canvas.getContext("2d");
+  var drawing = false;
+  var coordinates = []; // Array to store all line coordinates
+
+  // Event listeners for drawing
+  canvas.addEventListener('mousedown', function(e) {
+    drawing = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Redraw the image
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+    ctx.strokeStyle = '#' + Math.floor(Math.random()*16777215).toString(16);
+    ctx.stroke();
+    coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save starting point
+  });
+  canvas.addEventListener('mousemove', function(e) {
+    if (drawing) {
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save current point
+      console.log(coordinates)
+    }
+  });
+  canvas.addEventListener('mouseup', endDrawing);
+
+  canvas.addEventListener('touchstart', function(e) {
+    drawing = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Redraw the image
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+    ctx.strokeStyle = '#' + Math.floor(Math.random()*16777215).toString(16);
+    ctx.stroke();
+    coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save starting point
+  });
+  canvas.addEventListener('touchmove', function(e) {
+    if (drawing) {
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save current point
+      console.log(coordinates)
+    }
+  });
+  canvas.addEventListener('touchend', endDrawing);
+
+  function startDrawing(e) {
+    drawing = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Redraw the image
+    var touch = e.touches[0];
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+    coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+  }
+
+  function draw(e) {
+    if (drawing) {
+      var touch = e.touches[0];
+      ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
+      ctx.stroke();
+      coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+    }
+  }
+
+  function endDrawing() {
+    drawing = false;
+  }
+
+  idx += 1;
+  return idx;
+}
+
 
 function addCounter(table, idx, name, data) {
   var row = table.insertRow(idx);
@@ -672,14 +786,13 @@ function addElement(table, idx, data) {
     (data.type == 'number')
   ) {
     idx = addNumber(table, idx, name, data);
-  } else if ((data.type == 'field_image') ||
-    (data.type == 'clickable_image')) {
-    idx = addClickableImage(table, idx, name, data);
   } else if ((data.type == 'bool') ||
     (data.type == 'checkbox') ||
     (data.type == 'pass_fail')
   ) {
     idx = addCheckbox(table, idx, name, data);
+  } else if ((data.type == 'drawable_image')) {
+    idx = addDrawable(table, idx, name, data);
   } else if (data.type == 'counter') {
     idx = addCounter(table, idx, name, data);
   } else if ((data.type == 'timer') ||
@@ -813,8 +926,8 @@ function validateData() {
   for (rf of requiredFields) {
     var thisRF = document.forms.scoutingForm[rf];
     if (thisRF.value == "[]" || thisRF.value.length == 0) {
-      if (rf == "as") {
-        rftitle = "Auto Start Position"
+      if (rf == "stpos") {
+        rftitle = "Starting Position"
       } else {
         thisInputEl = thisRF instanceof RadioNodeList ? thisRF[0] : thisRF;
         rftitle = thisInputEl.parentElement.parentElement.children[0].innerHTML.replace("&nbsp;","");
