@@ -146,7 +146,7 @@ var config_data = `
       "type": "bool"
     },
     { "name": "Defense locations",
-      "code": "sits",
+      "code": "dloc",
       "type": "radio",
       "choices": {
         "sbs": "Shot block at speaker<br>",
@@ -199,7 +199,7 @@ var config_data = `
       "defaultValue": "x"
     },
     { "name": "Chain Position",
-      "code": "fs",
+      "code": "cp",
       "type":"radio",
       "choices": {
         "mid": "Middle<br>",
