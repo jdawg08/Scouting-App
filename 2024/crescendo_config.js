@@ -218,6 +218,10 @@ var config_data = `
       "code": "die",
       "type": "bool"
     },
+    { "name": "Damaged?",
+      "code": "dam",
+      "type": "bool"
+    },
     { "name": "Note stuck in robot?",
       "code": "dn",
       "type": "bool"
@@ -228,7 +232,7 @@ var config_data = `
       "size": 15,
       "maxSize": 55
     },
-    { "name": "Tank Drive",
+    { "name": "Drivetrain",
       "code": "td",
       "type": "radio",
       "choices": {

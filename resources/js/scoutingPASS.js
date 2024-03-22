@@ -14,6 +14,8 @@ var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
 var pathCoords = [];
+var coordinates = []; // Array to store all line coordinates
+
 
 
 // Options
@@ -193,7 +195,7 @@ function addDrawable(table, idx, name, data) {
   // Initialize drawing context
   var ctx = canvas.getContext("2d");
   var drawing = false;
-  var coordinates = []; // Array to store all line coordinates
+  //var coordinates = []; // Array to store all line coordinates
 
   // Event listeners for drawing
   canvas.addEventListener('mousedown', function(e) {
@@ -1053,8 +1055,13 @@ function clearForm() {
       document.getElementById("input_m").value = match + 1
     }
 
-    // Robot
-    resetRobot()
+
+  // Data to save
+
+// Append the button to the document body
+
+  // Robot
+  resetRobot()
   }
 
   // Clear XY coordinates
@@ -1569,6 +1576,40 @@ function copyData(){
   navigator.clipboard.writeText(getData(dataFormat));
   document.getElementById('copyButton').setAttribute('value','Copied');
 }
+// Define the coordinates variable globally to make it accessible
+var coordinates = [];
+
+// Function to download data with custom file name
+function downloadData(robotNumber, matchNumber) {
+  // Convert coordinates to a string
+  var data = JSON.stringify(coordinates);
+
+  // Create a Blob object
+  var blob = new Blob([data], { type: 'application/json' });
+
+  // Create a URL for the Blob
+  var url = URL.createObjectURL(blob);
+
+  // Create the file name based on robot number and match number
+  var fileName = 'Team' + getRobot() + 'M' + document.getElementById("input_m").value + '.txt';
+
+  // Create a link element
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = fileName; // Custom file name
+  a.textContent = 'Download data';
+
+  // Trigger download when the link is clicked
+  a.click();// Replace 'your-button-id' with the actual ID of your button
+
+// Add an event listener to the button to call the downloadData function with robot number and match number when clicked
+}
+
+// Get the pre-made button element
+
+
+// Get the pre-made button element
+
 
 window.onload = function () {
   let ret = configure();
