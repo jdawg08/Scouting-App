@@ -195,7 +195,6 @@ function addDrawable(table, idx, name, data) {
   // Initialize drawing context
   var ctx = canvas.getContext("2d");
   var drawing = false;
-  //var coordinates = []; // Array to store all line coordinates
 
   // Event listeners for drawing
   canvas.addEventListener('mousedown', function(e) {
@@ -206,14 +205,27 @@ function addDrawable(table, idx, name, data) {
     ctx.moveTo(e.offsetX, e.offsetY);
     ctx.strokeStyle = '#' + Math.floor(Math.random()*16777215).toString(16);
     ctx.stroke();
-    coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save starting point
+    if (data.hasOwnProperty('path')) {
+      var path = data.path;
+      if (path === 't') {
+        pathCoords.push({ x: e.offsetX, y: e.offsetY });
+      } else {
+        coordinates.push({ x: e.offsetX, y: e.offsetY });
+      }
+    }
   });
   canvas.addEventListener('mousemove', function(e) {
     if (drawing) {
       ctx.lineTo(e.offsetX, e.offsetY);
       ctx.stroke();
-      coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save current point
-      console.log(coordinates)
+      if (data.hasOwnProperty('path')) {
+        var path = data.path;
+        if (path === 't') {
+          pathCoords.push({ x: e.offsetX, y: e.offsetY });
+        } else {
+          coordinates.push({ x: e.offsetX, y: e.offsetY });
+        }
+      } // Save current point
     }
   });
   canvas.addEventListener('mouseup', endDrawing);
@@ -226,14 +238,27 @@ function addDrawable(table, idx, name, data) {
     ctx.moveTo(e.offsetX, e.offsetY);
     ctx.strokeStyle = '#' + Math.floor(Math.random()*16777215).toString(16);
     ctx.stroke();
-    coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save starting point
+    if (data.hasOwnProperty('path')) {
+      var path = data.path;
+      if (path === 't') {
+        pathCoords.push({ x: e.offsetX, y: e.offsetY });
+      } else {
+        coordinates.push({ x: e.offsetX, y: e.offsetY });
+      }
+    } // Save starting point
   });
   canvas.addEventListener('touchmove', function(e) {
     if (drawing) {
       ctx.lineTo(e.offsetX, e.offsetY);
       ctx.stroke();
-      coordinates.push({ x: e.offsetX, y: e.offsetY }); // Save current point
-      console.log(coordinates)
+      if (data.hasOwnProperty('path')) {
+        var path = data.path;
+        if (path === 't') {
+          pathCoords.push({ x: e.offsetX, y: e.offsetY });
+        } else {
+          coordinates.push({ x: e.offsetX, y: e.offsetY });
+        }
+      }
     }
   });
   canvas.addEventListener('touchend', endDrawing);
@@ -245,7 +270,14 @@ function addDrawable(table, idx, name, data) {
     var touch = e.touches[0];
     ctx.beginPath();
     ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
-    coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+    if (data.hasOwnProperty('path')) {
+      var path = data.path;
+      if (path === 't') {
+        pathCoords.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+      } else {
+        coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+      }
+    }
   }
 
   function draw(e) {
@@ -253,7 +285,14 @@ function addDrawable(table, idx, name, data) {
       var touch = e.touches[0];
       ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
       ctx.stroke();
-      coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+      if (data.hasOwnProperty('path')) {
+        var path = data.path;
+        if (path === 't') {
+          pathCoords.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+        } else {
+          coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
+        }
+      }
     }
   }
 
@@ -1180,6 +1219,8 @@ function drawFields(name) {
   var fields = document.querySelectorAll("[id*='canvas_']");
 
   for (f of fields) {
+    f.addEventListener('touchstart', startTouch);
+    f.addEventListener('touchmove', moveTouch);
     code = f.id.substring(7);
     var img = document.getElementById("img_" + code);
     var shape = document.getElementById("shape_" + code);
@@ -1240,6 +1281,28 @@ function drawFields(name) {
       }
     }
   }
+  function startTouch(e) {
+    initialX = e.touches[0].screenX;
+  };
+  
+  function moveTouch(e) {
+    if (initialX === null) {
+      return;
+    }
+  
+    var currentX = e.changedTouches[0].screenX;
+    var diffX = initialX - currentX;
+  
+    // sliding horizontally
+    if (diffX / screen.width > xThreshold) {
+      // swiped left
+      swipePage(1);
+    } else if (diffX / screen.width < -xThreshold) {
+      // swiped right
+      swipePage(-1);
+    }
+    initialX = null;
+  };
   }
      
 
