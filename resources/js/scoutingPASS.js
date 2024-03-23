@@ -1052,7 +1052,24 @@ function updateQRHeader() {
 
   document.getElementById("display_qr-info").textContent = str;
 }
+/*
+function generateQRFromArrays() {
+  var combinedData = JSON.stringify(coordinates) + JSON.stringify(pathCoords);
+  var newQrContainer = document.getElementById("new-qr-container");
 
+  if (combinedData.length > 0 && newQrContainer) {
+    var pc = new QRCode("new-qr-container", {
+      text: combinedData,
+      width: 128,
+      height: 128
+    });
+
+    newQrContainer.appendChild(pc._el);
+  } else {
+    console.error("Error: Data is empty or Container element not found.");
+  }
+}
+*/
 
 function qr_regenerate() {
   // Validate required pre-match date (event, match, level, robot, scouter)
@@ -1068,13 +1085,22 @@ function qr_regenerate() {
 
   // Regenerate QR Code
   qr.makeCode(data)
+  var combinedData = JSON.stringify(coordinates) + JSON.stringify(pathCoords);
+  console.log(combinedData)
+  if (combinedData !== "[][]"){
+    qr2.makeCode(combinedData)
+  }
 
-  updateQRHeader()
+  //updateQRHeader()
   return true
 }
 
 function qr_clear() {
   qr.clear()
+  if (combinedData !== ""){
+    qr2.clear()
+  }
+  
 }
 
 function clearForm() {
@@ -1640,15 +1666,16 @@ function copyData(){
   document.getElementById('copyButton').setAttribute('value','Copied');
 }
 // Define the coordinates variable globally to make it accessible
-var coordinates = [];
+//var coordinates = [];
 
 // Function to download data with custom file name
-function downloadData(robotNumber, matchNumber) {
+function downloadData() {
   // Convert coordinates to a string
   var data = JSON.stringify(coordinates);
+  var data2 = JSON.stringify(pathCoords);
 
   // Create a Blob object
-  var blob = new Blob([data], { type: 'application/json' });
+  var blob = new Blob([data,data2], { type: 'application/json' });
 
   // Create a URL for the Blob
   var url = URL.createObjectURL(blob);
