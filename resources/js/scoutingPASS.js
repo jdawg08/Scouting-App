@@ -207,9 +207,9 @@ function addDrawable(table, idx, name, data) {
     ctx.stroke();
     if (data.hasOwnProperty('path')) {
       var path = data.path;
-      if (path === 't') {
+      if (path === 't' && e.offsetX % 4 === 0 && e.offsetX % 6 === 0) {
         pathCoords.push({ x: e.offsetX, y: e.offsetY });
-      } else {
+      } else if (path === 'a' && e.offsetX % 4 === 0 && e.offsetX % 6 === 0) {
         coordinates.push({ x: e.offsetX, y: e.offsetY });
       }
     }
@@ -220,9 +220,9 @@ function addDrawable(table, idx, name, data) {
       ctx.stroke();
       if (data.hasOwnProperty('path')) {
         var path = data.path;
-        if (path === 't') {
+        if (path === 't' && e.offsetX % 4 === 0 && e.offsetX % 6 === 0) {
           pathCoords.push({ x: e.offsetX, y: e.offsetY });
-        } else {
+        } else if (path === 'a' && e.offsetX % 4 === 0 && e.offsetX % 6 === 0) {
           coordinates.push({ x: e.offsetX, y: e.offsetY });
         }
       } // Save current point
@@ -230,80 +230,12 @@ function addDrawable(table, idx, name, data) {
   });
   canvas.addEventListener('mouseup', endDrawing);
 
-  canvas.addEventListener('touchstart', function(e) {
-    drawing = true;
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Redraw the image
-    ctx.beginPath();
-    ctx.moveTo(e.offsetX, e.offsetY);
-    ctx.strokeStyle = '#' + Math.floor(Math.random()*16777215).toString(16);
-    ctx.stroke();
-    if (data.hasOwnProperty('path')) {
-      var path = data.path;
-      if (path === 't') {
-        pathCoords.push({ x: e.offsetX, y: e.offsetY });
-      } else {
-        coordinates.push({ x: e.offsetX, y: e.offsetY });
-      }
-    } // Save starting point
-  });
-  canvas.addEventListener('touchmove', function(e) {
-    if (drawing) {
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-      if (data.hasOwnProperty('path')) {
-        var path = data.path;
-        if (path === 't') {
-          pathCoords.push({ x: e.offsetX, y: e.offsetY });
-        } else {
-          coordinates.push({ x: e.offsetX, y: e.offsetY });
-        }
-      }
-    }
-  });
-  canvas.addEventListener('touchend', endDrawing);
-
-  function startDrawing(e) {
-    drawing = true;
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Redraw the image
-    var touch = e.touches[0];
-    ctx.beginPath();
-    ctx.moveTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
-    if (data.hasOwnProperty('path')) {
-      var path = data.path;
-      if (path === 't') {
-        pathCoords.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
-      } else {
-        coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
-      }
-    }
-  }
-
-  function draw(e) {
-    if (drawing) {
-      var touch = e.touches[0];
-      ctx.lineTo(touch.clientX - canvas.offsetLeft, touch.clientY - canvas.offsetTop);
-      ctx.stroke();
-      if (data.hasOwnProperty('path')) {
-        var path = data.path;
-        if (path === 't') {
-          pathCoords.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
-        } else {
-          coordinates.push({ x: touch.clientX - canvas.offsetLeft, y: touch.clientY - canvas.offsetTop });
-        }
-      }
-    }
-  }
+  
 
   function endDrawing() {
     drawing = false;
   }
-
-  idx += 1;
-  return idx;
 }
-
 
 function addCounter(table, idx, name, data) {
   var row = table.insertRow(idx);
@@ -1673,9 +1605,11 @@ function downloadData() {
   // Convert coordinates to a string
   var data = JSON.stringify(coordinates);
   var data2 = JSON.stringify(pathCoords);
+  complete = data + " " + data2
 
   // Create a Blob object
-  var blob = new Blob([data,data2], { type: 'application/json' });
+  var blob = new Blob([complete], { type: 'application/json' });
+
 
   // Create a URL for the Blob
   var url = URL.createObjectURL(blob);

@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 import math as Math
 from retry import retry
 
-myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/2024Mish_Match56.xlsx"
+myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/TestExcelSheet.xlsm"
 
 # Reading an excel file
-names = ['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'AmpMiss-Auto', 'SpeakerScores','SpeakerMiss', 'NearScore', 'NearMiss', 'FarAwayScore', 'FarAwayMiss', 'AmpScores_tele', 'AmpMisses_tele', 'Pickupfrom', 'finalstatus', 'chainpos', 'noteintrap', 'human?', 'madehignnote', 'driverskill', 'defenserating', 'speedrating','died','tippy','stuck_note','Comments','pen#']
-excelFile = pd.read_excel(myFile)
+#names = ['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'AmpMiss-Auto', 'SpeakerScores','SpeakerMiss', 'NearScore', 'NearMiss', 'FarAwayScore', 'FarAwayMiss', 'AmpScores_tele', 'AmpMisses_tele', 'Pickupfrom', 'finalstatus', 'chainpos', 'noteintrap', 'human?', 'madehignnote', 'driverskill', 'defenserating', 'speedrating','died','tippy','stuck_note','Comments','pen#']
+excelFile = pd.read_excel(myFile,sheet_name="Match Scouting Data")
 
 # Converting excel file into CSV file
 excelFile.to_csv("ResultCsvFile.csv",index=False)
@@ -22,9 +22,10 @@ dataframeObject = pd.DataFrame(pd.read_csv("ResultCsvFile.csv"))
 
 # Displaying the dataframe object
 myData = dataframeObject.values.tolist()
+print(myData[0])
 
 
-
+'''
 def get_match(num):
     for list in myData:
         if list[3] == num:
@@ -147,43 +148,6 @@ def __split_list(lst, n):
         result.append(lst[i:i + n])
     return result
 
-def position_values():
-    '''
-        An auton start position heatmap
-    '''
-    #score_stuff = max_min_hit_miss()
-    #print(score_stuff)
-    labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
-    pos_vals = [[0,0,0,0,0,0,0,0,0,0,0,0] for x in range(6)]
-    pos_vals = __flatten_extend(pos_vals)
-    print(pos_vals)
-
-    #labels for heatmap
-    temp = []
-    heatData = []
-    i=0
-    #type 1 is auto starting positions
-    for l in myData:
-        temp.append(l[5])
-    for item in temp:
-        item = int(item[1:len(item)-1])
-        heatData.append(item)
-
-    print(heatData)
-    
-    #Labels for the heatmap are made to shown along with data
-    while i < len(heatData):
-        variable = heatData[i]
-        pos_vals[variable-1] += 1
-        print(pos_vals)
-        i += 1 
-    labels = np.array(labels)
-    pos_vals = __split_list(pos_vals,12)
-    pos_vals = np.array(pos_vals)
-
-    formatted_text = (np.asarray(["{0}\n{1:.2f}".format(labels, pos_vals) for pos_vals, labels in zip(pos_vals.flatten(), labels.flatten())])).reshape(6, 12)
-    map1 = sns.heatmap(data=pos_vals,cmap="cool",xticklabels=False,yticklabels=False,annot=formatted_text,fmt="")
-    plt.show()
 
 
 @retry(ZeroDivisionError,delay=1)
@@ -232,7 +196,4 @@ def get_comments(param):
             collection[29] = " "
         if collection[29].find(param) != -1:
             print("Match " + str(collection[2]) + ", Robot " + str(collection[3]) + ", Team #: " + str(collection[4]) + ", " + str(collection[0]) + " said " + "'" + collection[29] + "'.")
-
-
-    
-    
+'''
