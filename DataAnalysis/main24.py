@@ -1,4 +1,8 @@
 import AVG 
+
+AVG.robot_avg(1720)
+
+'''
 import argparse
 parser = argparse.ArgumentParser(prog='Data Analysis 2024',description='Analyzes data using various Python tools')
 #add arguments before making .parse_args here (its required idk why) -- specific data
@@ -23,3 +27,4 @@ elif args.avg_score_percent:
     arg5 = AVG.avg_score_percent(args.avg_score_percent)
 elif args.get_comments:
     arg6 = AVG.get_comments(args.get_comments)
+    '''

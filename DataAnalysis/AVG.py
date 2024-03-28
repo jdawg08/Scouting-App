@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import math as Math
 from retry import retry
 
-myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/DataAnalysis/TestExcelSheet.xlsm"
+myFile = "C:/Users/Robotics/Documents/GitHub/ScoutingPASS/Excel/2024/2024 Excel.xlsm"
 
 # Reading an excel file
 #names = ['Scouter', 'Comp', 'Matchlvl', 'MatchNum', 'Robot', 'Team Number', 'Auto StartPosition', 'LeaveStartZone', 'AmpScore-Auto', 'AmpMiss-Auto', 'SpeakerScores','SpeakerMiss', 'NearScore', 'NearMiss', 'FarAwayScore', 'FarAwayMiss', 'AmpScores_tele', 'AmpMisses_tele', 'Pickupfrom', 'finalstatus', 'chainpos', 'noteintrap', 'human?', 'madehignnote', 'driverskill', 'defenserating', 'speedrating','died','tippy','stuck_note','Comments','pen#']
@@ -22,60 +22,130 @@ dataframeObject = pd.DataFrame(pd.read_csv("ResultCsvFile.csv"))
 
 # Displaying the dataframe object
 myData = dataframeObject.values.tolist()
-print(myData[0])
 
 
-'''
+
 def get_match(num):
     for list in myData:
-        if list[3] == num:
-            print('Name: ' + str(list[0]) + ', ' + str(list[1]) + ', Match ' + str(list[2]) + ', Robot: ' + str(list[3]) + ', Team ' + str(list[4]))
+        if list[4] == num:
+            print('Name: ' + str(list[0]) + ', ' + 'Event: ' + str(list[2]) + 'Level: ' + str(list[3]) + ', Match ' + str(list[4]) + ', Robot: ' + str(list[5]) + ', Team ' + str(list[6]))
             print('Info -')
-            print('Start Position: ' + str(list[5]))
-            print('Left Start zone?: ' + str(list[6]))
-            print('Amp Score - Auto: ' + str(list[7]))
-            print('Amp Misses - Auto: ' + str(list[8]))
-            print('Speaker Scores: ' + str(list[9]))
-            print('Speaker Misses: ' + str(list[10]))
-            print('Near Scores: ' + str(list[11]))
-            print('Near Misses: ' + str(list[12]))
-            print('Far Away Scores: ' + str(list[13]))
-            print('Far Away Misses: ' + str(list[14]))
-            print('Amp Scoress - teleop: ' + str(list[15]))
-            print('Amp misses - teleop: ' + str(list[16]))
-            print('Pickup from: ' + str(list[17]))
-            print('Final Status: ' + str(list[18]))
-            print('Chain Position: ' + str(list[19]))
-            print('Note in trap: ' + str(list[20]))
-            print('Human?: ' + str(list[21]))
-            print('Made High Note?: ' + str(list[22]))
-            print('Driver Skill: ' + str(list[23]))
-            print('Defense Rating: ' + str(list[24]))
-            print('Speed Rating: ' + str(list[25]))
-            print('Died/Immobilized: ' + str(list[26]))
-            print('Tippy?: ' + str(list[27]))
-            print('Stuck note: ' + str(list[28]))
-            print('Comments: ' + str(list[29]))
-            print('Penalty #: ' + str(list[30]))
+            print(' ')
+            
+            if list[7] == 'bas':
+                sp = 'Between Amp and Speaker'
+            elif list[7] == 'ifsas':
+                sp = 'In front of speaker amp side'
+            elif list[7] == 'insm':
+                sp = 'In front of speaker middle'
+            elif list[7] == 'insas':
+                sp = 'In front of speaker source side'
+            elif list[7] == 'bsss':
+                sp = 'Between speaker and source'
+            print('Starting Position: ' + sp)
+            
+            if list[8] == 'afsna':
+                fsa = 'First shot not attempted'
+            elif list[8] == 'punz':
+                fsa = 'Pick up note in wing'
+            elif list[8] == 'puncl':
+                fsa = 'Pick up note - center line'
+            elif list[8] == 'sz':
+                fsa = 'Only leave starting zone'
+            elif list[8] == 'o':
+                fsa = 'Other'
+            elif list[8] == 'no':
+                fsa = 'Nothing'
+            print('Action after first shot: ' + fsa)
+
+            print('Auto Speaker Scores: ' + str(int(list[11])))
+            print('Auto Speaker Misses: ' + str(int(list[12])))
+            print('Teleop Speaker Scores: ' + str(int(list[13])))
+            print('Teleop Speaker Misses: ' + str(int(list[14])))
+            
+            if list[15] == 'ne':
+                nfs = 'Near'
+            elif list[15] == 'f':
+                nfs = 'Far'
+            elif list[15] == 'b':
+                nfs = 'Both'
+            elif list[15] == 'n':
+                nfs = 'None'
+            print('Near or far shots?: ' + nfs)
+            
+            print('Only shoots with bumpers touching speaker?: ' + str(bool(list[16])))
+            print('Amp Scores - teleop: ' + str(list[17]))
+            print('Amp misses - teleop: ' + str(list[18]))
+            print('Notes shuttled for alliance partners: ' + str(int(list[19])))
+            print('Defensive player?: ' + str(bool(list[20])))
+            
+            if list[21] == 'sbs':
+                dfl = 'Shot block at speaker'
+            elif list[21] == 'nos':
+                dfl = 'Path block near source'
+            elif list[21] == 'ao':
+                dfl = 'All Over'
+            elif list[21] == 'oth':
+                dfl = 'Other'
+            elif list[21] == 'n':
+                dfl = 'None'
+            print('Defense location nan: ' + dfl)
+            
+            print('Penalties: ' + str(list[22]))
+            
+            if list[23] == 'bl':
+                color = 'Only Blue stage'
+            elif list[23] == 'rd':
+                color = 'Only Red stage'
+            elif list[23] == 'bh':
+                color = 'Both stages'
+            elif list[23] == 'n':
+                color = 'No'
+            print('Travel through stage?: ' + color)
+            
+            print('Parked: ' + str(bool(list[25])))
+            
+            if list[26] == 'o':
+                OS = 'Onstage'
+            elif list[26] == 'h':
+                OS = 'Harmony'
+            elif list[26] == 'a':
+                OS = 'Attempted and failed'
+            elif list[26] == 'x':
+                OS = 'Not attempted'
+            print('Onstage status ' + OS)
+            
+            if list[27] == 'mid':
+                cps = 'In the middle of chain'
+            elif list[27] == 'side':
+                cps = 'On chain sides'
+            elif list[27] == 'n':
+                cps = 'No Chain'
+            print('Chain Position: ' + cps)
+            
+            print('Note in trap: ' + str(bool(list[28])))
+            print('Died/Immobilized?: ' + str(bool(list[29])))
+            print('Damaged?: ' + str(bool(list[30])))
+            print('Note stuck in robot?: ' + str(bool(list[31])))
+            print('Comments: ' + str(list[32]))
+            print('Drivetrain: ' + str(list[33]))
             print('___________________________________________________')
             print(' ')
             
+
 def __allStuff(team):
-    totals = [0,0,0,0,0,0,0,0,0,0,0]
+    totals = [0,0,0,0,0,0,0,0]
     counter = 0
     for list in myData:
-        if list[4] == team:
-            totals[0] += list[7]
-            totals[1] += list[8]
-            totals[2] += list[9]
-            totals[3] += list[10]
-            totals[4] += list[11]
-            totals[5] += list[12]
-            totals[6] += list[13]
-            totals[7] += list[14]
-            totals[8] += list[15]
-            totals[9] += list[16]
-            totals[10] += list[30]
+        if list[6] == team:
+            totals[0] += list[11]
+            totals[1] += list[12]
+            totals[2] += list[13]
+            totals[3] += list[14]
+            totals[4] += list[17]
+            totals[5] += list[18]
+            totals[6] += list[19]
+            totals[7] += list[22]
             counter += 1
     q = 0
     while q < len(totals):
@@ -94,24 +164,21 @@ def robot_avg(t):
         if Math.isnan(stack[l]) == True:
             stack[l] = 0
         l += 1
-    print('Avg. amp score in auto: ' + str(stack[0]))
-    print('Avg. amp misses in auto: ' + str(stack[1]))
-    print('Avg. speaker scores: ' + str(stack[2]))
-    print('Avg. speaker misses: ' + str(stack[3]))
-    print('Avg. near scores: ' + str(stack[4]))
-    print('Avg. near misses: ' + str(stack[5]))
-    print('Avg. far away scores: ' + str(stack[6]))
-    print('Avg. far away misses: ' + str(stack[7]))
-    print('Avg. amp scores - teleop: ' + str(stack[8]))
-    print('Avg. amp misses - teleop: ' + str(stack[9]))
-    print('Avg. # of penalties: ' + str(stack[10]))
+    print('Avg. speaker scores in auto: ' + str(stack[0]))
+    print('Avg. speaker misses in auto: ' + str(stack[1]))
+    print('Avg. speaker scores in teleop: ' + str(stack[2]))
+    print('Avg. speaker misses in teleop: ' + str(stack[3]))
+    print('Avg. amp scores in teleop: ' + str(stack[4]))
+    print('Avg. amp misses in teleop: ' + str(stack[5]))
+    print('Avg. notes shuttled for alliance players: ' + str(stack[6]))
+    print('Avg. penalties: ' + str(stack[7]))
 
-    
+'''
 @retry(ZeroDivisionError,delay=1)
 def standard_dev(team_num):
     sd = []
     labelers = 0
-    holders = [7,8,9,10,11,12,13,14,15,16,30]
+    holders = [11,12,13,14,17,18,19,22]
     place = 0
     while place < len(holders):
         for list in myData:
