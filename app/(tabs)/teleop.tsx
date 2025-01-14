@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
 import { Button } from '../../components/ui/Button';
 import { FontAwesome } from '@expo/vector-icons';
+import { config_data } from './2025/reefscape_config.js';
 
 interface CounterProps {
   label: string;
@@ -65,10 +66,16 @@ const CycleTimer: React.FC<CycleTimerProps> = ({ label, isRunning, onToggle, cyc
 
 export default function TeleopScreen() {
   const router = useRouter();
+  const configJson = JSON.parse(config_data);
+  const teleopConfig = configJson.teleop;
+
   const [scores, setScores] = useState({
-    speakerScored: 0,
-    ampScored: 0,
-    notePickup: 0,
+    coralL1: 0,
+    coralL2: 0,
+    coralL3: 0,
+    coralL4: 0,
+    processorScore: 0,
+    netScore: 0,
   });
 
   const [cycleTimer, setCycleTimer] = useState({
@@ -88,19 +95,17 @@ export default function TeleopScreen() {
   }, [cycleTimer.isRunning]);
 
   const handleIncrement = (key: keyof typeof scores) => {
-    if (typeof scores[key] === 'number') {
-      setScores(prev => ({
-        ...prev,
-        [key]: (prev[key] as number) + 1
-      }));
-    }
+    setScores(prev => ({
+      ...prev,
+      [key]: prev[key] + 1
+    }));
   };
 
   const handleDecrement = (key: keyof typeof scores) => {
-    if (typeof scores[key] === 'number' && scores[key] > 0) {
+    if (scores[key] > 0) {
       setScores(prev => ({
         ...prev,
-        [key]: (prev[key] as number) - 1
+        [key]: prev[key] - 1
       }));
     }
   };
@@ -130,34 +135,62 @@ export default function TeleopScreen() {
   };
 
   const handleNext = () => {
-    // TODO: Save teleop data
     router.push('/endgame');
   };
 
+  // Find specific configurations
+  const coralL1Config = teleopConfig.find((field: any) => field.code === 'tc1');
+  const coralL2Config = teleopConfig.find((field: any) => field.code === 'tc2');
+  const coralL3Config = teleopConfig.find((field: any) => field.code === 'tc3');
+  const coralL4Config = teleopConfig.find((field: any) => field.code === 'tc4');
+  const processorScoreConfig = teleopConfig.find((field: any) => field.code === 'tps');
+  const netScoreConfig = teleopConfig.find((field: any) => field.code === 'tns');
+
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Teleop Period</Text>
+      <Text style={styles.title}>{configJson.page_title} - Teleop</Text>
       
       <View style={styles.content}>
         <Counter
-          label="Speaker Notes Scored"
-          value={scores.speakerScored}
-          onIncrement={() => handleIncrement('speakerScored')}
-          onDecrement={() => handleDecrement('speakerScored')}
+          label={coralL1Config?.name || "Coral L1"}
+          value={scores.coralL1}
+          onIncrement={() => handleIncrement('coralL1')}
+          onDecrement={() => handleDecrement('coralL1')}
         />
 
         <Counter
-          label="Amp Notes Scored"
-          value={scores.ampScored}
-          onIncrement={() => handleIncrement('ampScored')}
-          onDecrement={() => handleDecrement('ampScored')}
+          label={coralL2Config?.name || "Coral L2"}
+          value={scores.coralL2}
+          onIncrement={() => handleIncrement('coralL2')}
+          onDecrement={() => handleDecrement('coralL2')}
         />
 
         <Counter
-          label="Notes Picked Up"
-          value={scores.notePickup}
-          onIncrement={() => handleIncrement('notePickup')}
-          onDecrement={() => handleDecrement('notePickup')}
+          label={coralL3Config?.name || "Coral L3"}
+          value={scores.coralL3}
+          onIncrement={() => handleIncrement('coralL3')}
+          onDecrement={() => handleDecrement('coralL3')}
+        />
+
+        <Counter
+          label={coralL4Config?.name || "Coral L4"}
+          value={scores.coralL4}
+          onIncrement={() => handleIncrement('coralL4')}
+          onDecrement={() => handleDecrement('coralL4')}
+        />
+
+        <Counter
+          label={processorScoreConfig?.name || "Processor Score"}
+          value={scores.processorScore}
+          onIncrement={() => handleIncrement('processorScore')}
+          onDecrement={() => handleDecrement('processorScore')}
+        />
+
+        <Counter
+          label={netScoreConfig?.name || "Net Score"}
+          value={scores.netScore}
+          onIncrement={() => handleIncrement('netScore')}
+          onDecrement={() => handleDecrement('netScore')}
         />
 
         <CycleTimer
@@ -182,6 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingBottom: 100,
   },
   title: {
     fontSize: 24,
@@ -191,9 +225,10 @@ const styles = StyleSheet.create({
   },
   content: {
     gap: 20,
+    paddingBottom: 100,
   },
   counterContainer: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#413838',
     padding: 15,
     borderRadius: 10,
   },
@@ -220,9 +255,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     minWidth: 40,
     textAlign: 'center',
+    color:'#F8F8F9',
   },
   timerContainer: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#25A26C',
     padding: 15,
     borderRadius: 10,
   },

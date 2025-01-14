@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   content: {
     gap: 20,
     alignItems: 'center',
+    paddingBottom: 100,
   },
   qrContainer: {
     padding: 20,
@@ -138,11 +139,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
+    color:'#000000',
   },
   dataScroll: {
     maxHeight: 200,
   },
   dataText: {
     fontFamily: 'monospace',
+    color:'#000000',
   },
 }); 

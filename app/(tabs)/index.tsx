@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View, TextInput } from '../../components/Themed';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
 import { Button } from '../../components/ui/Button';
 import { useScoutingData } from '../../context/ScoutingContext';
+import { config_data } from './2025/reefscape_config.js';
 
 export default function PreMatchScreen() {
   const router = useRouter();
   const { scoutingData, updateScoutingData } = useScoutingData();
+  const configJson = JSON.parse(config_data);
 
   const handleInputChange = (field: string, value: string) => {
     updateScoutingData({ [field]: value });
@@ -18,61 +20,68 @@ export default function PreMatchScreen() {
     router.push('/auton');
   };
 
+  // Find the field configs from prematch section
+  const eventConfig = configJson.prematch.find((field: any) => field.code === 'e');
+  const matchConfig = configJson.prematch.find((field: any) => field.code === 'm');
+  const teamConfig = configJson.prematch.find((field: any) => field.code === 't');
+  const scouterConfig = configJson.prematch.find((field: any) => field.code === 's');
+  const robotConfig = configJson.prematch.find((field: any) => field.code === 'r');
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Pre-Match Scouting</Text>
+        <Text style={styles.title}>{configJson.title}</Text>
         
         <View style={styles.formContainer}>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Event Code</Text>
+            <Text style={styles.label}>{eventConfig?.name || 'Event Code'}</Text>
             <TextInput
               style={styles.input}
               value={scoutingData.eventCode}
               onChangeText={(value) => handleInputChange('eventCode', value)}
-              placeholder="Enter event code"
+              placeholder={`Enter ${eventConfig?.name.toLowerCase() || 'event code'}`}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Match Number</Text>
+            <Text style={styles.label}>{matchConfig?.name || 'Match Number'}</Text>
             <TextInput
               style={styles.input}
               value={scoutingData.matchNumber}
               onChangeText={(value) => handleInputChange('matchNumber', value)}
-              placeholder="Enter match number"
+              placeholder={`Enter ${matchConfig?.name.toLowerCase() || 'match number'}`}
               keyboardType="numeric"
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Team Number</Text>
+            <Text style={styles.label}>{teamConfig?.name || 'Team Number'}</Text>
             <TextInput
               style={styles.input}
               value={scoutingData.teamNumber}
               onChangeText={(value) => handleInputChange('teamNumber', value)}
-              placeholder="Enter team number"
+              placeholder={`Enter ${teamConfig?.name.toLowerCase() || 'team number'}`}
               keyboardType="numeric"
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Scout Name</Text>
+            <Text style={styles.label}>{scouterConfig?.name || 'Scouter Name'}</Text>
             <TextInput
               style={styles.input}
               value={scoutingData.scoutName}
               onChangeText={(value) => handleInputChange('scoutName', value)}
-              placeholder="Enter your name"
+              placeholder={`Enter ${scouterConfig?.name.toLowerCase() || 'your name'}`}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Robot Position</Text>
+            <Text style={styles.label}>{robotConfig?.name || 'Robot Position'}</Text>
             <TextInput
               style={styles.input}
               value={scoutingData.robotPosition}
               onChangeText={(value) => handleInputChange('robotPosition', value)}
-              placeholder="Enter robot position"
+              placeholder={`Enter ${robotConfig?.name.toLowerCase() || 'robot position'}`}
             />
           </View>
 

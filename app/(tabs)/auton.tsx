@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
 import { Button } from '../../components/ui/Button';
 import { FontAwesome } from '@expo/vector-icons';
+import { config_data } from './2025/reefscape_config.js';
 
 interface CounterProps {
   label: string;
@@ -30,6 +31,9 @@ const Counter: React.FC<CounterProps> = ({ label, value, onIncrement, onDecremen
 
 export default function AutonScreen() {
   const router = useRouter();
+  const configJson = JSON.parse(config_data);
+  const autonConfig = configJson.auton;
+
   const [scores, setScores] = useState({
     speakerScored: 0,
     ampScored: 0,
@@ -67,27 +71,57 @@ export default function AutonScreen() {
     router.push('/teleop');
   };
 
+  // Find specific configurations
+  const leaveStartingLineConfig = autonConfig.find((field: any) => field.code === 'al');
+  const coralL1Config = autonConfig.find((field: any) => field.code === 'ac1');
+  const coralL2Config = autonConfig.find((field: any) => field.code === 'ac2');
+  const coralL3Config = autonConfig.find((field: any) => field.code === 'ac3');
+  const coralL4Config = autonConfig.find((field: any) => field.code === 'ac4');
+  const processorScoreConfig = autonConfig.find((field: any) => field.code === 'aps');
+  const netScoreConfig = autonConfig.find((field: any) => field.code === 'ans');
+
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Autonomous Period</Text>
+      <Text style={styles.title}>{configJson.page_title} - Autonomous</Text>
       
       <View style={styles.content}>
         <Counter
-          label="Speaker Notes Scored"
+          label={coralL1Config?.name || "Coral L1"}
           value={scores.speakerScored}
           onIncrement={() => handleIncrement('speakerScored')}
           onDecrement={() => handleDecrement('speakerScored')}
         />
 
         <Counter
-          label="Amp Notes Scored"
+          label={coralL2Config?.name || "Coral L2"}
           value={scores.ampScored}
           onIncrement={() => handleIncrement('ampScored')}
           onDecrement={() => handleDecrement('ampScored')}
         />
 
         <Counter
-          label="Notes Picked Up"
+          label={coralL3Config?.name || "Coral L3"}
+          value={scores.notePickup}
+          onIncrement={() => handleIncrement('notePickup')}
+          onDecrement={() => handleDecrement('notePickup')}
+        />
+
+        <Counter
+          label={coralL4Config?.name || "Coral L4"}
+          value={scores.notePickup}
+          onIncrement={() => handleIncrement('notePickup')}
+          onDecrement={() => handleDecrement('notePickup')}
+        />
+
+        <Counter
+          label={processorScoreConfig?.name || "Processor Score"}
+          value={scores.notePickup}
+          onIncrement={() => handleIncrement('notePickup')}
+          onDecrement={() => handleDecrement('notePickup')}
+        />
+
+        <Counter
+          label={netScoreConfig?.name || "Net Score"}
           value={scores.notePickup}
           onIncrement={() => handleIncrement('notePickup')}
           onDecrement={() => handleDecrement('notePickup')}
@@ -98,7 +132,7 @@ export default function AutonScreen() {
           onPress={toggleMobility}
         >
           <Text style={styles.mobilityText}>
-            Mobility {scores.mobility ? '✓' : '✗'}
+            {leaveStartingLineConfig?.name || "Leave Starting Line"} {scores.mobility ? '✓' : '✗'}
           </Text>
         </TouchableOpacity>
 
@@ -116,24 +150,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingBottom: 100,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#FFFEFE',
   },
   content: {
     gap: 20,
+    paddingBottom: 80,
   },
   counterContainer: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#413838',
     padding: 15,
     borderRadius: 10,
   },
   label: {
     fontSize: 16,
     marginBottom: 10,
+    color: '#FEFEFE',
   },
   counterControls: {
     flexDirection: 'row',
@@ -154,9 +192,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     minWidth: 40,
     textAlign: 'center',
+    color: '#F8F8F9',
   },
   mobilityButton: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#FF0D0D',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
@@ -167,6 +206,7 @@ const styles = StyleSheet.create({
   mobilityText: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#000000',
   },
   button: {
     marginTop: 20,

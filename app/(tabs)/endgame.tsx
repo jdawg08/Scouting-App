@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
 import { Button } from '../../components/ui/Button';
 import { FontAwesome } from '@expo/vector-icons';
+import { config_data } from './2025/reefscape_config.js';
 
 interface ToggleButtonProps {
   label: string;
@@ -51,12 +52,13 @@ const Rating: React.FC<RatingProps> = ({ label, value, onChange, max }) => (
 
 export default function EndgameScreen() {
   const router = useRouter();
+  const configJson = JSON.parse(config_data);
+  const endgameConfig = configJson.endgame;
+  const postmatchConfig = configJson.postmatch;
+
   const [endgameState, setEndgameState] = useState({
-    onStage: false,
-    spotlit: false,
-    harmony: false,
-    trap: false,
-    parked: false,
+    bargeTimer: 0,
+    robotStatus: '',
     driverSkill: 1,
     defenseRating: 1,
     speedRating: 1,
@@ -72,73 +74,64 @@ export default function EndgameScreen() {
   };
 
   const setRating = (key: keyof typeof endgameState, value: number) => {
-    if (typeof endgameState[key] === 'number') {
-      setEndgameState(prev => ({
-        ...prev,
-        [key]: value
-      }));
-    }
+    setEndgameState(prev => ({
+      ...prev,
+      [key]: value
+    }));
   };
 
   const handleNext = () => {
-    // TODO: Save endgame data
     router.push('/qr');
   };
 
+  // Find specific configurations
+  const bargeTimerConfig = endgameConfig.find((field: any) => field.code === 'ebt');
+  const robotStatusConfig = endgameConfig.find((field: any) => field.code === 'efs');
+  const driverSkillConfig = postmatchConfig.find((field: any) => field.code === 'ds');
+  const defenseRatingConfig = postmatchConfig.find((field: any) => field.code === 'dr');
+  const speedRatingConfig = postmatchConfig.find((field: any) => field.code === 'sr');
+
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Endgame Period</Text>
+      <Text style={styles.title}>{configJson.page_title} - Endgame</Text>
       
       <View style={styles.content}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Stage Status</Text>
-          <ToggleButton
-            label="Robot On Stage"
-            value={endgameState.onStage}
-            onToggle={() => toggleState('onStage')}
-          />
-          <ToggleButton
-            label="Robot Spotlit"
-            value={endgameState.spotlit}
-            onToggle={() => toggleState('spotlit')}
-          />
-          <ToggleButton
-            label="Harmony Achieved"
-            value={endgameState.harmony}
-            onToggle={() => toggleState('harmony')}
-          />
+          <Text style={styles.sectionTitle}>{bargeTimerConfig?.name || "Barge Timer"}</Text>
+          <Text style={styles.label}>{endgameState.bargeTimer} seconds</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Final Position</Text>
-          <ToggleButton
-            label="Note in Trap"
-            value={endgameState.trap}
-            onToggle={() => toggleState('trap')}
-          />
-          <ToggleButton
-            label="Robot Parked"
-            value={endgameState.parked}
-            onToggle={() => toggleState('parked')}
-          />
+          <Text style={styles.sectionTitle}>{robotStatusConfig?.name || "Final Robot Status"}</Text>
+          {robotStatusConfig?.choices && Object.entries(robotStatusConfig.choices as Record<string, string>).map(([value, label]) => (
+            <TouchableOpacity
+              key={value}
+              style={[styles.toggleButton, endgameState.robotStatus === value && styles.toggleButtonActive]}
+              onPress={() => setEndgameState(prev => ({ ...prev, robotStatus: value }))}
+            >
+              <Text style={[styles.toggleButtonText, endgameState.robotStatus === value && styles.toggleButtonTextActive]}>
+                {label.replace('<br>', '')}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Performance Ratings</Text>
           <Rating
-            label="Driver Skill"
+            label={driverSkillConfig?.name || "Driver Skill"}
             value={endgameState.driverSkill}
             onChange={(value) => setRating('driverSkill', value)}
             max={5}
           />
           <Rating
-            label="Defense Rating"
+            label={defenseRatingConfig?.name || "Defense Rating"}
             value={endgameState.defenseRating}
             onChange={(value) => setRating('defenseRating', value)}
             max={5}
           />
           <Rating
-            label="Speed Rating"
+            label={speedRatingConfig?.name || "Speed Rating"}
             value={endgameState.speedRating}
             onChange={(value) => setRating('speedRating', value)}
             max={5}
@@ -168,9 +161,10 @@ const styles = StyleSheet.create({
   },
   content: {
     gap: 20,
+    paddingBottom: 100,
   },
   section: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#413838',
     padding: 15,
     borderRadius: 10,
     gap: 10,
@@ -185,7 +179,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   toggleButton: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FB0101',
     padding: 15,
     borderRadius: 5,
     borderWidth: 1,
@@ -198,13 +192,14 @@ const styles = StyleSheet.create({
   toggleButtonText: {
     fontSize: 16,
     textAlign: 'center',
-    color: '#000',
+    color: '#FFFEFE',
   },
   toggleButtonTextActive: {
     color: '#fff',
   },
   ratingContainer: {
     marginBottom: 15,
+    color:'#413838',
   },
   ratingButtons: {
     flexDirection: 'row',
@@ -226,7 +221,7 @@ const styles = StyleSheet.create({
   },
   ratingButtonText: {
     fontSize: 16,
-    color: '#000',
+    color: '#000000',
   },
   ratingButtonTextActive: {
     color: '#fff',
