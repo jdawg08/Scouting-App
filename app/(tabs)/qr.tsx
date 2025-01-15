@@ -5,30 +5,31 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Button } from '../../components/ui/Button';
 import QRCode from 'react-native-qrcode-svg';
 import * as Clipboard from 'expo-clipboard';
+import { useRouter } from 'expo-router';
+import { useScoutingData } from '../../context/ScoutingContext';
 
 export default function QRScreen() {
-  const [matchData, setMatchData] = useState('');
+  const router = useRouter();
+  const { scoutingData, clearScoutingData } = useScoutingData();
   const [qrValue, setQrValue] = useState('');
 
   useEffect(() => {
-    // TODO: Gather all match data from previous screens
     const data = {
       timestamp: new Date().toISOString(),
-      // Add all the match data here
+      ...scoutingData
     };
     const jsonData = JSON.stringify(data);
-    setMatchData(jsonData);
     setQrValue(jsonData);
-  }, []);
+  }, [scoutingData]);
 
   const handleCopyData = async () => {
-    await Clipboard.setStringAsync(matchData);
+    await Clipboard.setStringAsync(qrValue);
   };
 
   const handleShare = async () => {
     try {
       await Share.share({
-        message: matchData,
+        message: qrValue,
       });
     } catch (error) {
       console.error(error);
@@ -36,7 +37,8 @@ export default function QRScreen() {
   };
 
   const handleClear = () => {
-    // TODO: Clear all match data and return to first screen
+    clearScoutingData(); // Reset all form data
+    router.replace('/'); // Navigate back to the index page
   };
 
   return (
@@ -72,7 +74,7 @@ export default function QRScreen() {
 
           <Button
             onPress={handleClear}
-            style={[styles.button, styles.clearButton]}
+            style={{ ...styles.button, ...styles.clearButton }}
             text="Clear Form"
           />
         </View>
@@ -81,7 +83,7 @@ export default function QRScreen() {
           <Text style={styles.dataPreviewTitle}>Data Preview:</Text>
           <ScrollView style={styles.dataScroll}>
             <Text style={styles.dataText}>
-              {matchData ? JSON.stringify(JSON.parse(matchData), null, 2) : 'No data available'}
+              {qrValue ? JSON.stringify(JSON.parse(qrValue), null, 2) : 'No data available'}
             </Text>
           </ScrollView>
         </View>

@@ -2,16 +2,20 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface ScoutingData {
   // Pre-match data
-  eventCode: string;
+  scouterInitials: string;
+  event: string;
+  matchLevel: string;
   matchNumber: string;
   teamNumber: string;
-  scoutName: string;
   robotPosition: string;
 
   // Autonomous data
-  autonSpeakerScored: number;
-  autonAmpScored: number;
-  autonNotePickup: number;
+  autonCoralL1: number;
+  autonCoralL2: number;
+  autonCoralL3: number;
+  autonCoralL4: number;
+  autonProcessorScore: number;
+  autonNetScore: number;
   mobility: boolean;
 
   // Teleop data
@@ -29,6 +33,7 @@ interface ScoutingData {
   driverSkill: number;
   defenseRating: number;
   speedRating: number;
+  comments: string;
 }
 
 interface ScoutingContextType {
@@ -39,16 +44,20 @@ interface ScoutingContextType {
 
 const defaultScoutingData: ScoutingData = {
   // Pre-match defaults
-  eventCode: '',
+  scouterInitials: '',
+  event: '',
+  matchLevel: '',
   matchNumber: '',
   teamNumber: '',
-  scoutName: '',
   robotPosition: '',
 
   // Autonomous defaults
-  autonSpeakerScored: 0,
-  autonAmpScored: 0,
-  autonNotePickup: 0,
+  autonCoralL1: 0,
+  autonCoralL2: 0,
+  autonCoralL3: 0,
+  autonCoralL4: 0,
+  autonProcessorScore: 0,
+  autonNetScore: 0,
   mobility: false,
 
   // Teleop defaults
@@ -66,6 +75,7 @@ const defaultScoutingData: ScoutingData = {
   driverSkill: 1,
   defenseRating: 1,
   speedRating: 1,
+  comments: '',
 };
 
 const ScoutingContext = createContext<ScoutingContextType | undefined>(undefined);

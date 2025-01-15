@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text } from '../../components/Themed';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { Button } from '../../components/ui/Button';
 import { FontAwesome } from '@expo/vector-icons';
 import { config_data } from './2025/reefscape_config.js';
+import { useScoutingData } from '../../context/ScoutingContext';
 
 interface CounterProps {
   label: string;
@@ -33,13 +34,30 @@ export default function AutonScreen() {
   const router = useRouter();
   const configJson = JSON.parse(config_data);
   const autonConfig = configJson.auton;
+  const { scoutingData, updateScoutingData } = useScoutingData();
 
   const [scores, setScores] = useState({
-    speakerScored: 0,
-    ampScored: 0,
-    notePickup: 0,
-    mobility: false,
+    coralL1: scoutingData.autonCoralL1,
+    coralL2: scoutingData.autonCoralL2,
+    coralL3: scoutingData.autonCoralL3,
+    coralL4: scoutingData.autonCoralL4,
+    processorScore: scoutingData.autonProcessorScore,
+    netScore: scoutingData.autonNetScore,
+    mobility: scoutingData.mobility,
   });
+
+  // Update local state when context changes (e.g. when form is cleared)
+  useEffect(() => {
+    setScores({
+      coralL1: scoutingData.autonCoralL1,
+      coralL2: scoutingData.autonCoralL2,
+      coralL3: scoutingData.autonCoralL3,
+      coralL4: scoutingData.autonCoralL4,
+      processorScore: scoutingData.autonProcessorScore,
+      netScore: scoutingData.autonNetScore,
+      mobility: scoutingData.mobility,
+    });
+  }, [scoutingData]);
 
   const handleIncrement = (key: keyof typeof scores) => {
     if (typeof scores[key] === 'number') {
@@ -67,7 +85,16 @@ export default function AutonScreen() {
   };
 
   const handleNext = () => {
-    // TODO: Save auton data
+    // Save auton data to context
+    updateScoutingData({
+      autonCoralL1: scores.coralL1,
+      autonCoralL2: scores.coralL2,
+      autonCoralL3: scores.coralL3,
+      autonCoralL4: scores.coralL4,
+      autonProcessorScore: scores.processorScore,
+      autonNetScore: scores.netScore,
+      mobility: scores.mobility,
+    });
     router.push('/teleop');
   };
 
@@ -87,44 +114,44 @@ export default function AutonScreen() {
       <View style={styles.content}>
         <Counter
           label={coralL1Config?.name || "Coral L1"}
-          value={scores.speakerScored}
-          onIncrement={() => handleIncrement('speakerScored')}
-          onDecrement={() => handleDecrement('speakerScored')}
+          value={scores.coralL1}
+          onIncrement={() => handleIncrement('coralL1')}
+          onDecrement={() => handleDecrement('coralL1')}
         />
 
         <Counter
           label={coralL2Config?.name || "Coral L2"}
-          value={scores.ampScored}
-          onIncrement={() => handleIncrement('ampScored')}
-          onDecrement={() => handleDecrement('ampScored')}
+          value={scores.coralL2}
+          onIncrement={() => handleIncrement('coralL2')}
+          onDecrement={() => handleDecrement('coralL2')}
         />
 
         <Counter
           label={coralL3Config?.name || "Coral L3"}
-          value={scores.notePickup}
-          onIncrement={() => handleIncrement('notePickup')}
-          onDecrement={() => handleDecrement('notePickup')}
+          value={scores.coralL3}
+          onIncrement={() => handleIncrement('coralL3')}
+          onDecrement={() => handleDecrement('coralL3')}
         />
 
         <Counter
           label={coralL4Config?.name || "Coral L4"}
-          value={scores.notePickup}
-          onIncrement={() => handleIncrement('notePickup')}
-          onDecrement={() => handleDecrement('notePickup')}
+          value={scores.coralL4}
+          onIncrement={() => handleIncrement('coralL4')}
+          onDecrement={() => handleDecrement('coralL4')}
         />
 
         <Counter
           label={processorScoreConfig?.name || "Processor Score"}
-          value={scores.notePickup}
-          onIncrement={() => handleIncrement('notePickup')}
-          onDecrement={() => handleDecrement('notePickup')}
+          value={scores.processorScore}
+          onIncrement={() => handleIncrement('processorScore')}
+          onDecrement={() => handleDecrement('processorScore')}
         />
 
         <Counter
           label={netScoreConfig?.name || "Net Score"}
-          value={scores.notePickup}
-          onIncrement={() => handleIncrement('notePickup')}
-          onDecrement={() => handleDecrement('notePickup')}
+          value={scores.netScore}
+          onIncrement={() => handleIncrement('netScore')}
+          onDecrement={() => handleDecrement('netScore')}
         />
 
         <TouchableOpacity 

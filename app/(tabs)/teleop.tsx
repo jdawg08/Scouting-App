@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { Button } from '../../components/ui/Button';
 import { FontAwesome } from '@expo/vector-icons';
 import { config_data } from './2025/reefscape_config.js';
+import { useScoutingData } from '../../context/ScoutingContext';
 
 interface CounterProps {
   label: string;
@@ -68,21 +69,32 @@ export default function TeleopScreen() {
   const router = useRouter();
   const configJson = JSON.parse(config_data);
   const teleopConfig = configJson.teleop;
+  const { scoutingData, updateScoutingData } = useScoutingData();
 
   const [scores, setScores] = useState({
-    coralL1: 0,
-    coralL2: 0,
-    coralL3: 0,
-    coralL4: 0,
-    processorScore: 0,
-    netScore: 0,
+    speakerScored: scoutingData.teleopSpeakerScored,
+    ampScored: scoutingData.teleopAmpScored,
+    notePickup: scoutingData.teleopNotePickup,
   });
 
   const [cycleTimer, setCycleTimer] = useState({
     isRunning: false,
     startTime: 0,
-    cycles: [] as number[],
+    cycles: scoutingData.scoringCycles,
   });
+
+  // Update local state when context changes (e.g. when form is cleared)
+  useEffect(() => {
+    setScores({
+      speakerScored: scoutingData.teleopSpeakerScored,
+      ampScored: scoutingData.teleopAmpScored,
+      notePickup: scoutingData.teleopNotePickup,
+    });
+    setCycleTimer(prev => ({
+      ...prev,
+      cycles: scoutingData.scoringCycles,
+    }));
+  }, [scoutingData]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -135,6 +147,12 @@ export default function TeleopScreen() {
   };
 
   const handleNext = () => {
+    updateScoutingData({
+      teleopSpeakerScored: scores.speakerScored,
+      teleopAmpScored: scores.ampScored,
+      teleopNotePickup: scores.notePickup,
+      scoringCycles: cycleTimer.cycles,
+    });
     router.push('/endgame');
   };
 
@@ -152,45 +170,24 @@ export default function TeleopScreen() {
       
       <View style={styles.content}>
         <Counter
-          label={coralL1Config?.name || "Coral L1"}
-          value={scores.coralL1}
-          onIncrement={() => handleIncrement('coralL1')}
-          onDecrement={() => handleDecrement('coralL1')}
+          label="Speaker Scored"
+          value={scores.speakerScored}
+          onIncrement={() => handleIncrement('speakerScored')}
+          onDecrement={() => handleDecrement('speakerScored')}
         />
 
         <Counter
-          label={coralL2Config?.name || "Coral L2"}
-          value={scores.coralL2}
-          onIncrement={() => handleIncrement('coralL2')}
-          onDecrement={() => handleDecrement('coralL2')}
+          label="Amp Scored"
+          value={scores.ampScored}
+          onIncrement={() => handleIncrement('ampScored')}
+          onDecrement={() => handleDecrement('ampScored')}
         />
 
         <Counter
-          label={coralL3Config?.name || "Coral L3"}
-          value={scores.coralL3}
-          onIncrement={() => handleIncrement('coralL3')}
-          onDecrement={() => handleDecrement('coralL3')}
-        />
-
-        <Counter
-          label={coralL4Config?.name || "Coral L4"}
-          value={scores.coralL4}
-          onIncrement={() => handleIncrement('coralL4')}
-          onDecrement={() => handleDecrement('coralL4')}
-        />
-
-        <Counter
-          label={processorScoreConfig?.name || "Processor Score"}
-          value={scores.processorScore}
-          onIncrement={() => handleIncrement('processorScore')}
-          onDecrement={() => handleDecrement('processorScore')}
-        />
-
-        <Counter
-          label={netScoreConfig?.name || "Net Score"}
-          value={scores.netScore}
-          onIncrement={() => handleIncrement('netScore')}
-          onDecrement={() => handleDecrement('netScore')}
+          label="Note Pickup"
+          value={scores.notePickup}
+          onIncrement={() => handleIncrement('notePickup')}
+          onDecrement={() => handleDecrement('notePickup')}
         />
 
         <CycleTimer
