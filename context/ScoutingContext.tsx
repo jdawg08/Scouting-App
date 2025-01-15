@@ -8,6 +8,7 @@ interface ScoutingData {
   matchNumber: string;
   teamNumber: string;
   robotPosition: string;
+  clickedPoints: { x: number; y: number }[];
 
   // Autonomous data
   autonCoralL1: number;
@@ -50,6 +51,7 @@ const defaultScoutingData: ScoutingData = {
   matchNumber: '',
   teamNumber: '',
   robotPosition: '',
+  clickedPoints: [],
 
   // Autonomous defaults
   autonCoralL1: 0,
