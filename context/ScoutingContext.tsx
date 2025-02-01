@@ -18,12 +18,26 @@ interface ScoutingData {
   autonProcessorScore: number;
   autonNetScore: number;
   mobility: boolean;
+  crossedLine: boolean;
+  coralScoredLocation: 'barge' | 'processor' | 'both' | null;
 
   // Teleop data
   teleopSpeakerScored: number;
   teleopAmpScored: number;
   teleopNotePickup: number;
   scoringCycles: number[];
+  teleopCoralL1: number;
+  teleopCoralL2: number;
+  teleopCoralL3: number;
+  teleopCoralL4: number;
+  teleopProcessorScore: number;
+  teleopNetScore: number;
+  teleopAlgaeProcessor: number;
+  teleopAlgaeNet: number;
+  scoredFarSide: boolean;
+  algaeRemoved: boolean;
+  robotDied: boolean;
+  cageHang: 'deep' | 'shallow' | 'line' | null;
 
   // Endgame data
   onStage: boolean;
@@ -61,12 +75,26 @@ const defaultScoutingData: ScoutingData = {
   autonProcessorScore: 0,
   autonNetScore: 0,
   mobility: false,
+  crossedLine: false,
+  coralScoredLocation: null,
 
   // Teleop defaults
   teleopSpeakerScored: 0,
   teleopAmpScored: 0,
   teleopNotePickup: 0,
   scoringCycles: [],
+  teleopCoralL1: 0,
+  teleopCoralL2: 0,
+  teleopCoralL3: 0,
+  teleopCoralL4: 0,
+  teleopProcessorScore: 0,
+  teleopNetScore: 0,
+  teleopAlgaeProcessor: 0,
+  teleopAlgaeNet: 0,
+  scoredFarSide: false,
+  algaeRemoved: false,
+  robotDied: false,
+  cageHang: null,
 
   // Endgame defaults
   onStage: false,

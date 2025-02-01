@@ -75,6 +75,18 @@ export default function TeleopScreen() {
     speakerScored: scoutingData.teleopSpeakerScored,
     ampScored: scoutingData.teleopAmpScored,
     notePickup: scoutingData.teleopNotePickup,
+    coralL1: scoutingData.teleopCoralL1,
+    coralL2: scoutingData.teleopCoralL2,
+    coralL3: scoutingData.teleopCoralL3,
+    coralL4: scoutingData.teleopCoralL4,
+    processorScore: scoutingData.teleopProcessorScore,
+    netScore: scoutingData.teleopNetScore,
+    algaeProcessor: scoutingData.teleopAlgaeProcessor,
+    algaeNet: scoutingData.teleopAlgaeNet,
+    scoredFarSide: scoutingData.scoredFarSide || false,
+    algaeRemoved: scoutingData.algaeRemoved || false,
+    robotDied: scoutingData.robotDied || false,
+    cageHang: scoutingData.cageHang || null,
   });
 
   const [cycleTimer, setCycleTimer] = useState({
@@ -89,6 +101,18 @@ export default function TeleopScreen() {
       speakerScored: scoutingData.teleopSpeakerScored,
       ampScored: scoutingData.teleopAmpScored,
       notePickup: scoutingData.teleopNotePickup,
+      coralL1: scoutingData.teleopCoralL1,
+      coralL2: scoutingData.teleopCoralL2,
+      coralL3: scoutingData.teleopCoralL3,
+      coralL4: scoutingData.teleopCoralL4,
+      processorScore: scoutingData.teleopProcessorScore,
+      netScore: scoutingData.teleopNetScore,
+      algaeProcessor: scoutingData.teleopAlgaeProcessor,
+      algaeNet: scoutingData.teleopAlgaeNet,
+      scoredFarSide: scoutingData.scoredFarSide || false,
+      algaeRemoved: scoutingData.algaeRemoved || false,
+      robotDied: scoutingData.robotDied || false,
+      cageHang: scoutingData.cageHang || null,
     });
     setCycleTimer(prev => ({
       ...prev,
@@ -107,17 +131,19 @@ export default function TeleopScreen() {
   }, [cycleTimer.isRunning]);
 
   const handleIncrement = (key: keyof typeof scores) => {
-    setScores(prev => ({
-      ...prev,
-      [key]: prev[key] + 1
-    }));
+    if (typeof scores[key] === 'number') {
+      setScores(prev => ({
+        ...prev,
+        [key]: (prev[key] as number) + 1
+      }));
+    }
   };
 
   const handleDecrement = (key: keyof typeof scores) => {
-    if (scores[key] > 0) {
+    if (typeof scores[key] === 'number' && scores[key] as number > 0) {
       setScores(prev => ({
         ...prev,
-        [key]: prev[key] - 1
+        [key]: (prev[key] as number) - 1
       }));
     }
   };
@@ -152,8 +178,27 @@ export default function TeleopScreen() {
       teleopAmpScored: scores.ampScored,
       teleopNotePickup: scores.notePickup,
       scoringCycles: cycleTimer.cycles,
+      teleopCoralL1: scores.coralL1,
+      teleopCoralL2: scores.coralL2,
+      teleopCoralL3: scores.coralL3,
+      teleopCoralL4: scores.coralL4,
+      teleopProcessorScore: scores.processorScore,
+      teleopNetScore: scores.netScore,
+      teleopAlgaeProcessor: scores.algaeProcessor,
+      teleopAlgaeNet: scores.algaeNet,
+      scoredFarSide: scores.scoredFarSide,
+      algaeRemoved: scores.algaeRemoved,
+      robotDied: scores.robotDied,
+      cageHang: scores.cageHang,
     });
     router.push('/endgame');
+  };
+
+  const toggleCheckbox = (key: 'scoredFarSide' | 'algaeRemoved' | 'robotDied') => {
+    setScores(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
   };
 
   // Find specific configurations
@@ -169,26 +214,172 @@ export default function TeleopScreen() {
       <Text style={styles.title}>{configJson.page_title} - Teleop</Text>
       
       <View style={styles.content}>
-        <Counter
-          label="Speaker Scored"
-          value={scores.speakerScored}
-          onIncrement={() => handleIncrement('speakerScored')}
-          onDecrement={() => handleDecrement('speakerScored')}
-        />
+        <View style={styles.counterRow}>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label={coralL1Config?.name || "Coral L1"}
+              value={scores.coralL1}
+              onIncrement={() => handleIncrement('coralL1')}
+              onDecrement={() => handleDecrement('coralL1')}
+            />
+          </View>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label={coralL2Config?.name || "Coral L2"}
+              value={scores.coralL2}
+              onIncrement={() => handleIncrement('coralL2')}
+              onDecrement={() => handleDecrement('coralL2')}
+            />
+          </View>
+        </View>
 
-        <Counter
-          label="Amp Scored"
-          value={scores.ampScored}
-          onIncrement={() => handleIncrement('ampScored')}
-          onDecrement={() => handleDecrement('ampScored')}
-        />
+        <View style={styles.counterRow}>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label={coralL3Config?.name || "Coral L3"}
+              value={scores.coralL3}
+              onIncrement={() => handleIncrement('coralL3')}
+              onDecrement={() => handleDecrement('coralL3')}
+            />
+          </View>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label={coralL4Config?.name || "Coral L4"}
+              value={scores.coralL4}
+              onIncrement={() => handleIncrement('coralL4')}
+              onDecrement={() => handleDecrement('coralL4')}
+            />
+          </View>
+        </View>
 
-        <Counter
-          label="Note Pickup"
-          value={scores.notePickup}
-          onIncrement={() => handleIncrement('notePickup')}
-          onDecrement={() => handleDecrement('notePickup')}
-        />
+        <View style={styles.counterRow}>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label={processorScoreConfig?.name || "Processor Score"}
+              value={scores.processorScore}
+              onIncrement={() => handleIncrement('processorScore')}
+              onDecrement={() => handleDecrement('processorScore')}
+            />
+          </View>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label={netScoreConfig?.name || "Net Score"}
+              value={scores.netScore}
+              onIncrement={() => handleIncrement('netScore')}
+              onDecrement={() => handleDecrement('netScore')}
+            />
+          </View>
+        </View>
+
+        <View style={styles.counterRow}>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label="Speaker Scored"
+              value={scores.speakerScored}
+              onIncrement={() => handleIncrement('speakerScored')}
+              onDecrement={() => handleDecrement('speakerScored')}
+            />
+          </View>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label="Amp Scored"
+              value={scores.ampScored}
+              onIncrement={() => handleIncrement('ampScored')}
+              onDecrement={() => handleDecrement('ampScored')}
+            />
+          </View>
+        </View>
+
+        <View style={styles.counterRow}>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label="Note Pickup"
+              value={scores.notePickup}
+              onIncrement={() => handleIncrement('notePickup')}
+              onDecrement={() => handleDecrement('notePickup')}
+            />
+          </View>
+        </View>
+
+        <View style={styles.counterRow}>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label="Algae scored in Processor"
+              value={scores.algaeProcessor}
+              onIncrement={() => handleIncrement('algaeProcessor')}
+              onDecrement={() => handleDecrement('algaeProcessor')}
+            />
+          </View>
+          <View style={styles.counterWrapper}>
+            <Counter
+              label="Algae scored in Net"
+              value={scores.algaeNet}
+              onIncrement={() => handleIncrement('algaeNet')}
+              onDecrement={() => handleDecrement('algaeNet')}
+            />
+          </View>
+        </View>
+
+        <View style={styles.checkboxContainer}>
+          <TouchableOpacity 
+            style={[styles.checkbox, scores.scoredFarSide && styles.checkboxActive]}
+            onPress={() => toggleCheckbox('scoredFarSide')}
+          >
+            <Text style={styles.checkboxText}>
+              Scored on far side of Reef? {scores.scoredFarSide ? '✓' : '✗'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.checkbox, scores.algaeRemoved && styles.checkboxActive]}
+            onPress={() => toggleCheckbox('algaeRemoved')}
+          >
+            <Text style={styles.checkboxText}>
+              Algae Removed? {scores.algaeRemoved ? '✓' : '✗'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.checkbox, scores.robotDied && styles.checkboxActive]}
+            onPress={() => toggleCheckbox('robotDied')}
+          >
+            <Text style={styles.checkboxText}>
+              Robot Died? {scores.robotDied ? '✓' : '✗'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.dropdownContainer}>
+          <Text style={styles.dropdownTitle}>Cage Hang</Text>
+          <View style={styles.dropdownButtons}>
+            <TouchableOpacity 
+              style={[styles.dropdownButton, scores.cageHang === 'deep' && styles.dropdownActive]}
+              onPress={() => setScores(prev => ({ ...prev, cageHang: 'deep' }))}
+            >
+              <Text style={[styles.dropdownText, scores.cageHang === 'deep' && styles.dropdownTextActive]}>
+                Deep Cage
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.dropdownButton, scores.cageHang === 'shallow' && styles.dropdownActive]}
+              onPress={() => setScores(prev => ({ ...prev, cageHang: 'shallow' }))}
+            >
+              <Text style={[styles.dropdownText, scores.cageHang === 'shallow' && styles.dropdownTextActive]}>
+                Shallow Cage
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.dropdownButton, scores.cageHang === 'line' && styles.dropdownActive]}
+              onPress={() => setScores(prev => ({ ...prev, cageHang: 'line' }))}
+            >
+              <Text style={[styles.dropdownText, scores.cageHang === 'line' && styles.dropdownTextActive]}>
+                Line Park
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
         <CycleTimer
           label="Scoring Cycle"
@@ -221,38 +412,46 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   content: {
-    gap: 20,
+    gap: 10,
     paddingBottom: 100,
   },
+  counterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  counterWrapper: {
+    flex: 1,
+  },
   counterContainer: {
-    backgroundColor: '#413838',
-    padding: 15,
+    backgroundColor: '#AF8D8D',
+    padding: 10,
     borderRadius: 10,
   },
   label: {
-    fontSize: 16,
-    marginBottom: 10,
+    fontSize: 14,
+    marginBottom: 8,
   },
   counterControls: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 20,
+    gap: 10,
   },
   counterButton: {
     backgroundColor: '#2196F3',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 35,
+    height: 35,
+    borderRadius: 17.5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   counterValue: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    minWidth: 40,
+    minWidth: 35,
     textAlign: 'center',
-    color:'#F8F8F9',
+    color: '#F8F8F9',
   },
   timerContainer: {
     backgroundColor: '#25A26C',
@@ -294,5 +493,54 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
+  },
+  checkboxContainer: {
+    gap: 10,
+  },
+  checkbox: {
+    backgroundColor: '#FF0D0D',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  checkboxActive: {
+    backgroundColor: '#4CAF50',
+  },
+  checkboxText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  dropdownContainer: {
+    backgroundColor: '#413838',
+    padding: 15,
+    borderRadius: 10,
+  },
+  dropdownTitle: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: '#FEFEFE',
+    textAlign: 'center',
+  },
+  dropdownButtons: {
+    flexDirection: 'column',
+    gap: 8,
+  },
+  dropdownButton: {
+    backgroundColor: '#2F2F2F',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  dropdownActive: {
+    backgroundColor: '#2196F3',
+  },
+  dropdownText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FEFEFE',
+  },
+  dropdownTextActive: {
+    color: '#FFFFFF',
   },
 }); 

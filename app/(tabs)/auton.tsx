@@ -44,6 +44,8 @@ export default function AutonScreen() {
     processorScore: scoutingData.autonProcessorScore,
     netScore: scoutingData.autonNetScore,
     mobility: scoutingData.mobility,
+    crossedLine: scoutingData.crossedLine || false,
+    coralScoredLocation: scoutingData.coralScoredLocation || null,
   });
 
   // Update local state when context changes (e.g. when form is cleared)
@@ -56,6 +58,8 @@ export default function AutonScreen() {
       processorScore: scoutingData.autonProcessorScore,
       netScore: scoutingData.autonNetScore,
       mobility: scoutingData.mobility,
+      crossedLine: scoutingData.crossedLine || false,
+      coralScoredLocation: scoutingData.coralScoredLocation || null,
     });
   }, [scoutingData]);
 
@@ -84,6 +88,13 @@ export default function AutonScreen() {
     }));
   };
 
+  const toggleCrossedLine = () => {
+    setScores(prev => ({
+      ...prev,
+      crossedLine: !prev.crossedLine
+    }));
+  };
+
   const handleNext = () => {
     // Save auton data to context
     updateScoutingData({
@@ -94,6 +105,8 @@ export default function AutonScreen() {
       autonProcessorScore: scores.processorScore,
       autonNetScore: scores.netScore,
       mobility: scores.mobility,
+      crossedLine: scores.crossedLine,
+      coralScoredLocation: scores.coralScoredLocation,
     });
     router.push('/teleop');
   };
@@ -162,6 +175,47 @@ export default function AutonScreen() {
             {leaveStartingLineConfig?.name || "Leave Starting Line"} {scores.mobility ? '✓' : '✗'}
           </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[styles.mobilityButton, scores.crossedLine && styles.mobilityActive]}
+          onPress={toggleCrossedLine}
+        >
+          <Text style={styles.mobilityText}>
+            Robot crossed Starting Line {scores.crossedLine ? '✓' : '✗'}
+          </Text>
+        </TouchableOpacity>
+
+        <View style={styles.locationContainer}>
+          <Text style={styles.locationTitle}>Coral Scored Location</Text>
+          <View style={styles.locationButtons}>
+            <TouchableOpacity 
+              style={[styles.locationButton, scores.coralScoredLocation === 'barge' && styles.locationActive]}
+              onPress={() => setScores(prev => ({ ...prev, coralScoredLocation: 'barge' }))}
+            >
+              <Text style={[styles.locationText, scores.coralScoredLocation === 'barge' && styles.locationTextActive]}>
+                Barge Side
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.locationButton, scores.coralScoredLocation === 'processor' && styles.locationActive]}
+              onPress={() => setScores(prev => ({ ...prev, coralScoredLocation: 'processor' }))}
+            >
+              <Text style={[styles.locationText, scores.coralScoredLocation === 'processor' && styles.locationTextActive]}>
+                Processor Side
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.locationButton, scores.coralScoredLocation === 'both' && styles.locationActive]}
+              onPress={() => setScores(prev => ({ ...prev, coralScoredLocation: 'both' }))}
+            >
+              <Text style={[styles.locationText, scores.coralScoredLocation === 'both' && styles.locationTextActive]}>
+                Both Sides
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
         <Button
           onPress={handleNext}
@@ -237,5 +291,39 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
+  },
+  locationContainer: {
+    backgroundColor: '#413838',
+    padding: 15,
+    borderRadius: 10,
+  },
+  locationTitle: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: '#FEFEFE',
+    textAlign: 'center',
+  },
+  locationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  locationButton: {
+    flex: 1,
+    backgroundColor: '#2F2F2F',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  locationActive: {
+    backgroundColor: '#2196F3',
+  },
+  locationText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FEFEFE',
+  },
+  locationTextActive: {
+    color: '#FFFFFF',
   },
 }); 
